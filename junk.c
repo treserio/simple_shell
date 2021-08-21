@@ -17,7 +17,7 @@ int main(void)
 
 	my_argv = f_args(p);
 
-	printf ("out:%s  |  %s", my_argv[0], my_argv[1]);
+	printf ("\nout:%s  |  %s", my_argv[0], my_argv[1]);
 	while(exit)
 	{
 		exit = 0;
@@ -69,7 +69,8 @@ char **f_args(char *input)
 	{
 		if (input[i] == ' ')
 		{
-			bufr = _realloc_ptr(bufr, cnt, sizeof(char *) * ++cnt);
+			bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * cnt + 1);
+			++cnt;
 			input[i] = '\0';
 			arg = (input + st);
 			printf("%s\n", arg);
@@ -80,13 +81,11 @@ char **f_args(char *input)
 	if (st != i)
 	{
 		printf("%d", cnt);
-		bufr = _realloc_ptr(bufr, cnt, sizeof(char *) * ++cnt);
+		bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
+		++cnt;
 		arg = (input + st);
-        printf("this%d", cnt);
-		printf("how%s\n", arg);
         bufr[cnt - 1] = arg;
 		printf("%s -- %s", bufr[0], bufr[1]);
 	}
-
 	return (bufr);
 }
