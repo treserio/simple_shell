@@ -22,6 +22,7 @@ int main(void)
 	{
 		exit = 0;
 	}
+	free(my_argv);
 }
 
 void *_realloc_ptr(void *ptr, unsigned int osz, unsigned int nsz)
