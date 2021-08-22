@@ -9,19 +9,40 @@ char **f_args(char *input);
 int main(void)
 {
 	char p[] = "/bin/ls -l";
-	char *buff, *d;
+	char *input, *d;
 	char **my_argv;
 	int exit = 1, i = 0;
+	size_t sz_input = 20;
+	ssize_t chk;
 
-	printf("%s\n", p);
+	input = malloc(sizeof(char) * sz_input);
+	if (!input)
+		return (-1);
 
-	my_argv = f_args(p);
-
-	printf ("\nout:%s  |  %s", my_argv[0], my_argv[1]);
 	while(exit)
 	{
-		exit = 0;
+
+		chk = getline(&input, &sz_input, stdin);
+		if (chk == -1)
+			printf("input failure");
+
+		input[chk - 1] = '\0';
+
+		printf("%s\n", input);
+
+		my_argv = f_args(input);
+
+		while (my_argv[i])
+		{
+			printf("%s", my_argv[i]);
+			++i;
+		}
+		printf("\n");
+		printf("%s", input);
+		if (input == "exit")
+			exit = 0;
 	}
+	free(input);
 	free(my_argv);
 }
 
@@ -71,22 +92,26 @@ char **f_args(char *input)
 		if (input[i] == ' ')
 		{
 			bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * cnt + 1);
-			++cnt;
 			input[i] = '\0';
 			arg = (input + st);
-			printf("%s\n", arg);
-			bufr[cnt - 1] = arg;
+			bufr[cnt] = arg;
 			st = i + 1;
+			++cnt;
+			printf("%s\n", arg);
 		}
 	}
 	if (st != i)
 	{
-		printf("%d", cnt);
 		bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
-		++cnt;
 		arg = (input + st);
-        bufr[cnt - 1] = arg;
-		printf("%s -- %s", bufr[0], bufr[1]);
+        bufr[cnt] = arg;
+		++cnt;
+		printf("%s\n", arg);
+		printf("%d", cnt);
 	}
+	bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
+	bufr[cnt] = NULL;
+	++cnt;
+
 	return (bufr);
 }
