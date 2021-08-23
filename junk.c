@@ -3,25 +3,24 @@
 #include <stdio.h>
 #include <unistd.h>
 
+int _strcmp(char *s1, char *s2);
 void *_realloc(void *ptr, unsigned int osz, unsigned int nsz);
 char **f_args(char *input);
 
 int main(void)
 {
-	char p[] = "/bin/ls -l";
-	char *input, *d;
+	char *input;
 	char **my_argv;
-	int exit = 1, i = 0;
-	size_t sz_input = 20;
+	int exit = 1, i;
+	size_t sz_input = 0;
 	ssize_t chk;
-
-	input = malloc(sizeof(char) * sz_input);
-	if (!input)
-		return (-1);
 
 	while(exit)
 	{
-
+		input = malloc(0);
+		if (!input)
+			return (-1);
+		
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
 			printf("input failure");
@@ -32,6 +31,7 @@ int main(void)
 
 		my_argv = f_args(input);
 
+		i = 0;
 		while (my_argv[i])
 		{
 			printf("%s", my_argv[i]);
@@ -39,11 +39,12 @@ int main(void)
 		}
 		printf("\n");
 		printf("%s", input);
-		if (input == "exit")
+		/* needs strcmp to compare input to exit case */
+		if (!_strcmp(input, "exit"))
 			exit = 0;
+		free(input);
+		free(my_argv);
 	}
-	free(input);
-	free(my_argv);
 }
 
 void *_realloc_ptr(void *ptr, unsigned int osz, unsigned int nsz)
@@ -81,8 +82,8 @@ void *_realloc_ptr(void *ptr, unsigned int osz, unsigned int nsz)
 
 char **f_args(char *input)
 {
-	int i, st, cnt = 0;
-	char **bufr = malloc(cnt);
+	int i, st, cnt;
+	char **bufr = malloc(0);
 	char *arg;
 
 	printf("in f_args:%s\n", input);
@@ -91,7 +92,12 @@ char **f_args(char *input)
 	{
 		if (input[i] == ' ')
 		{
-			bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * cnt + 1);
+			bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
+			if (!bufr)
+			{
+				printf("Realloc failed");
+				exit(-1);
+			}
 			input[i] = '\0';
 			arg = (input + st);
 			bufr[cnt] = arg;
@@ -100,9 +106,15 @@ char **f_args(char *input)
 			printf("%s\n", arg);
 		}
 	}
+	/* if the last char is not a space */
 	if (st != i)
 	{
 		bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
+		if (!bufr)
+		{
+			printf("Realloc failed");
+			exit(-1);
+		}
 		arg = (input + st);
         bufr[cnt] = arg;
 		++cnt;
@@ -110,8 +122,34 @@ char **f_args(char *input)
 		printf("%d", cnt);
 	}
 	bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
+	if (!bufr)
+	{
+		printf("Realloc failed");
+		exit(-1);
+	}
 	bufr[cnt] = NULL;
 	++cnt;
 
 	return (bufr);
+}
+/**
+ * _strcmp - compare 2 strings
+ * @s1: first string to compare
+ * @s2: second string to compare
+ * Return: linguistic difference in the deviant char, or zero if match
+ */
+int _strcmp(char *s1, char *s2)
+{
+	int i, chk = 0;
+
+	for (i = 0; s1[i] != '\0' && s2[i] != '\0'; i++)
+	{
+		if (s1[i] != s2[i])
+		{
+			chk = s1[i] - s2[i];
+			break;
+		}
+	}
+
+	return (chk);
 }
