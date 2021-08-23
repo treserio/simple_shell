@@ -17,10 +17,6 @@ int main(void)
 
 	while(exit)
 	{
-		input = malloc(0);
-		if (!input)
-			return (-1);
-		
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
 			printf("input failure");
@@ -38,66 +34,41 @@ int main(void)
 			++i;
 		}
 		printf("\n");
-		printf("%s", input);
 		/* needs strcmp to compare input to exit case */
 		if (!_strcmp(input, "exit"))
+		{
+			printf("exiting\n");
 			exit = 0;
-		free(input);
+		}
 		free(my_argv);
 	}
+	free(input);
 }
-
-void *_realloc_ptr(void *ptr, unsigned int osz, unsigned int nsz)
-{
-	unsigned int i;
-	char *dest, *orig = ptr;
-
-	/* new_size == old_size rtrn ptr */
-	if (osz == nsz)
-		return (ptr);
-
-	if (nsz == 0 && ptr != NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-
-	if (ptr == NULL)
-	{
-		free(ptr);
-		return (malloc(nsz));
-	}
-
-	dest = malloc(nsz);
-	if (dest == NULL)
-		return (NULL);
-
-	/* copy values from input pointer to dest */
-	for (i = 0; i < osz; ++i)
-		dest[i] = orig[i];
-
-	free(ptr);
-	return (dest);
-}
-
 char **f_args(char *input)
 {
-	int i, st, cnt;
-	char **bufr = malloc(0);
+	int i, st, cnt = 0;
+	char **bufr;
 	char *arg;
 
 	printf("in f_args:%s\n", input);
+
+	for (i = 0; input[i]; ++i)
+	{
+		if (input[i] == ' ')
+			++cnt;
+	}
+	printf("cnt %d\n", cnt);
+	bufr = malloc(sizeof(char *) * (cnt + 2));
+	if (!bufr)
+	{
+		printf("check");
+		exit(-1);
+	}
 
 	for (i = 0, st = 0, cnt = 0; input[i]; ++i)
 	{
 		if (input[i] == ' ')
 		{
-			bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
-			if (!bufr)
-			{
-				printf("Realloc failed");
-				exit(-1);
-			}
 			input[i] = '\0';
 			arg = (input + st);
 			bufr[cnt] = arg;
@@ -109,26 +80,14 @@ char **f_args(char *input)
 	/* if the last char is not a space */
 	if (st != i)
 	{
-		bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
-		if (!bufr)
-		{
-			printf("Realloc failed");
-			exit(-1);
-		}
 		arg = (input + st);
         bufr[cnt] = arg;
 		++cnt;
 		printf("%s\n", arg);
-		printf("%d", cnt);
+		printf("%d |", cnt);
 	}
-	bufr = _realloc_ptr(bufr, sizeof(char *) * cnt, sizeof(char *) * (cnt + 1));
-	if (!bufr)
-	{
-		printf("Realloc failed");
-		exit(-1);
-	}
+
 	bufr[cnt] = NULL;
-	++cnt;
 
 	return (bufr);
 }
