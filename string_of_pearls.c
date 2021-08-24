@@ -71,12 +71,17 @@ char **trawler(char *input, char parser)
 
 	return (bufr);
 }
+
+
 int amphibian(char *num)
 {
 	int rtrn;
 
-	for(rtrn = 0; *num; ++num, rtrn *= 10)
-		rtrn = *num - '0';
+	for(rtrn = 0; *num; ++num)
+	{
+		rtrn *= 10;
+		rtrn += *num - '0';
+	}
 
 	return (rtrn);
 }

@@ -50,9 +50,13 @@ int main(void)
 		free(my_argv);
 	}
 	/* convert string to int value for exit code */
-	ex_code = amphibian(my_argv[1]);
+	if (my_argv[1])
+	{
+		ex_code = amphibian(my_argv[1]);
+		free(input);
+		exit(ex_code);
+	}
 	free(input);
-	exit(ex_code);
 }
 /**
  * path_fishing - find the path in the environ variable
