@@ -9,6 +9,7 @@
 
 void depth_finder(char **);
 char **path_fishing(char **);
+char *deep_C_fishing(char *hook, char **sea);
 
 /* string of pearls */
 int _strcmp(char *s1, char *s2);

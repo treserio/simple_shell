@@ -72,7 +72,7 @@ char **trawler(char *input, char parser)
 	return (bufr);
 }
 
-
+/* convert a number string to an int value */
 int amphibian(char *num)
 {
 	int rtrn;
@@ -84,4 +84,28 @@ int amphibian(char *num)
 	}
 
 	return (rtrn);
+}
+
+/* need a strcat function here */
+char *strcat_fish(char *one_fish, char *two_fish)
+{
+	int i, size;
+	char *big_fish;
+
+	for (size = 0; one_fish[size]; ++size)
+	;
+	for (i = 0; two_fish[i]; ++size, ++i)
+	;
+	/* malloc size and copy strings to malloced buffes */
+	big_fish = malloc(size + 2);
+
+	for (size = 0; one_fish[size]; ++size)
+		big_fish[size] = one_fish[size];
+	big_fish[size] = '/';
+	for (i = 0, ++size; two_fish[i]; ++size, ++i)
+		big_fish[size] = two_fish[i];
+	/* set null byte for eos */
+	big_fish[size] = '\0';
+
+	return (big_fish);
 }

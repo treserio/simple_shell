@@ -4,8 +4,8 @@
 int main(void)
 {
 	extern char **environ;
-	char *input, **path;
-	char **my_argv;
+	char *input, *cmd_path;
+	char **my_argv, **path;
 	int exiting = 1, i, ex_code;
 	size_t sz_input = 0;
 	ssize_t chk;
@@ -44,8 +44,10 @@ int main(void)
 			}
 		}
 		/* confirm the argv[0] is a system function before execve */
+		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the execve with the argv[0] + the rest of the variables */
-		execve(my_argv[0], my_argv, environ);
+		if (cmd_path)
+			execve(cmd_path, my_argv, environ);
 
 		free(my_argv);
 	}
@@ -57,6 +59,7 @@ int main(void)
 		exit(ex_code);
 	}
 	free(input);
+	free(cmd_path);
 }
 /**
  * path_fishing - find the path in the environ variable
@@ -104,8 +107,20 @@ void depth_finder(char **ocean)
 	for (; ocean[i]; ++i)
 		printf("%s\n", ocean[i]);
 }
-
-char *deep_c_fishing(char *hook, char **sea)
+/* returns the correct path or NULL if access wasn't successfull */
+char *deep_C_fishing(char *hook, char **sea)
 {
-	
+	int fish;
+	char *catch = NULL;
+
+	for (fish = 0; sea[fish]; ++fish)
+	{
+		catch = strcat_fish(sea[fish], hook);
+		printf("catch:%s\n", catch);
+		if (!access(catch, X_OK))
+			break;
+		else
+			catch = NULL;
+	}
+	return (catch);
 }
