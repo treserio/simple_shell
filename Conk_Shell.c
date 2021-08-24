@@ -10,7 +10,7 @@ int main(void)
 	size_t sz_input = 0;
 	ssize_t chk;
 
-	/* establish global variable */
+	/* establish global path variable */
 	path = path_fishing(environ);
 
 	while(exiting)
@@ -103,4 +103,9 @@ void depth_finder(char **ocean)
 
 	for (; ocean[i]; ++i)
 		printf("%s\n", ocean[i]);
+}
+
+char *deep_c_fishing(char *hook, char **sea)
+{
+	
 }
