@@ -12,6 +12,6 @@ char **path_fishing(char **);
 
 /* string of pearls */
 int _strcmp(char *s1, char *s2);
-char **parser(char *, char);
+char **trawler(char *, char);
 
 #endif

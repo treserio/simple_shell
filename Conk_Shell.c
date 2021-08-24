@@ -6,14 +6,16 @@ int main(void)
 	extern char **environ;
 	char *input, **path;
 	char **my_argv;
-	int exiting = 1, i;
+	int exiting = 1, i, ex_code;
 	size_t sz_input = 0;
 	ssize_t chk;
 
+	/* establish global variable */
+	path = path_fishing(environ);
+
 	while(exiting)
 	{
-		/* establish global variable */
-		path = path_fishing(environ);
+		printf("\n$ ");
 
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
@@ -21,11 +23,12 @@ int main(void)
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
 		/* grab array of arguments */
-		my_argv = parser(input, ' ');
+		my_argv = trawler(input, ' ');
 		/* needs strcmp to compare input to exit case */
 		if (!_strcmp(my_argv[0], "exit"))
 		{
 			exiting = 0;
+			break;
 		}
 		if (!strcmp(my_argv[0], "env"))
 		{
@@ -33,13 +36,23 @@ int main(void)
 		}
 		if (!strcmp(my_argv[0], "path"))
 		{
-			path_fishing(environ);
+			for (i = 0; path[i]; ++i)
+			{
+				printf("%s", path[i]);
+				if (path[i + 1])
+					printf(":");
+			}
 		}
+		/* confirm the argv[0] is a system function before execve */
+		/* run the execve with the argv[0] + the rest of the variables */
+		execve(my_argv[0], my_argv, environ);
+
 		free(my_argv);
 	}
-	free(input);
 	/* convert string to int value for exit code */
-	/* exit(my_argv[1]); */
+	ex_code = amphibian(my_argv[1]);
+	free(input);
+	exit(ex_code);
 }
 /**
  * path_fishing - find the path in the environ variable
@@ -54,23 +67,24 @@ char **path_fishing(char **ocean)
 
 	for (i = 0; ocean[i]; ++i)
 	{
-		/* rewrite for condition to stop at = */
-		for (j = 0; ocean[i][j]; ++j)
+		/* search for = in string */
+		for (j = 0; ocean[i][j] && ocean[i][j] != '='; ++j)
+		;
+		if (ocean[i][j] == '=')
 		{
-			if (ocean[i][j] == '=')
+			temp = malloc(j + 1);
+			/* copy over the identifier before the = */
+			for (st = 0; st < j; ++st)
+				temp[st] = ocean[i][st];
+			temp[st] = '\0';
+			/* compare result with "PATH" */
+			if(!_strcmp(temp, "PATH"))
 			{
-				temp = malloc(j + 1);
-				for (st = 0; st < j; ++st)
-					temp[st] = ocean[i][st];
-				temp[st] = '\0';
-
-				if(!_strcmp(temp, "PATH"))
-				{
-					free(temp);
-					return (parser((ocean[i] + (j+1)), ':'));
-				}
 				free(temp);
+				/* returned parsed path variables as array of char pntrs */
+				return (trawler((ocean[i] + (j+1)), ':'));
 			}
+			free(temp);
 		}
 	}
 }
@@ -81,8 +95,8 @@ char **path_fishing(char **ocean)
  */
 void depth_finder(char **ocean)
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; ocean[i]; ++i)
+	for (; ocean[i]; ++i)
 		printf("%s\n", ocean[i]);
 }

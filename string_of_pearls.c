@@ -21,35 +21,32 @@ int _strcmp(char *s1, char *s2)
 	return (chk);
 }
 /**
- * parser - splits string on parser and returns array of parsed str
+ * trawler - splits string on parser and returns array of parsed str
  * @input: the string to parse
  * @parser: char to use as delimiter
  * Return: array of parsed strings
  */
-char **parser(char *input, char parser)
+char **trawler(char *input, char parser)
 {
 	int i, st, cnt = 0;
 	char **bufr;
 	char *arg;
 
-	printf("in parser:%s\n", input);
+	printf("in trawler||%s\n", input);
 
 	for (i = 0; input[i]; ++i)
 	{
 		if (input[i] == parser)
 			++cnt;
 	}
-	printf("cnt %d\n", cnt);
 
 	bufr = malloc(sizeof(char *) * (cnt + 2));
 	if (!bufr)
-	{
-		printf("check");
 		exit(-1);
-	}
 
 	for (i = 0, st = 0, cnt = 0; input[i]; ++i)
 	{
+		/* to consider " or o add a check bit  */		
 		if (input[i] == parser)
 		{
 			input[i] = '\0';
@@ -69,8 +66,17 @@ char **parser(char *input, char parser)
 		printf("%s\n", arg);
 		printf("%d |", cnt);
 	}
-
+	/* set the final value as NULL */
 	bufr[cnt] = NULL;
 
 	return (bufr);
+}
+int amphibian(char *num)
+{
+	int rtrn;
+
+	for(rtrn = 0; *num; ++num, rtrn *= 10)
+		rtrn = *num - '0';
+
+	return (rtrn);
 }
