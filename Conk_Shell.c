@@ -6,13 +6,15 @@ int main(void)
 	extern char **environ;
 	char *input, *cmd_path;
 	char **my_argv, **path;
-	int swimming = 1, i, to_Davy_Jones_locker;
+	int swimming = 1, i, to_Davy_Jones_locker, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
+	pid_t pid;
 
 	/* establish global path variable */
 	path = path_fishing(environ);
 
+	/* do we need to isatty */
 	while(swimming)
 	{
 		_puts("\n$ ");
@@ -51,8 +53,20 @@ int main(void)
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the execve with the argv[0] + the rest of the variables */
 		if (cmd_path)
-			/* fork process and run execve in child */
-			execve(cmd_path, my_argv, environ);
+		{
+			/* fork process and run execve in child, break into exe func? */
+			pid = fork();
+			if (pid < 0)
+			{
+				_puts("Unable to start process: ");
+				_puts(my_argv[0]);
+			}
+			else if (pid == 0)
+				execve(cmd_path, my_argv, environ);
+			else
+				(waitpid(pid, &chld_exit, 0));
+			printf("exit status:%d", chld_exit);
+		}
 		else
 		{
 			_puts(my_argv[0]);
