@@ -1,93 +1,92 @@
 #include "c_shells_by_the_c_shore.h"
 /**
- * _strcmp - compare 2 strings
- * @s1: first string to compare
- * @s2: second string to compare
+ * fish_cmp - compare 2 strings
+ * @red_fish: first string to compare
+ * @blue_fish: second string to compare
  * Return: linguistic difference in the deviant char, or zero if match
  */
-int _strcmp(char *s1, char *s2)
+int fish_cmp(char *red_fish, char *blue_fish)
 {
-	int i, chk = 0;
+	int part, chk = 0;
 
-	for (i = 0; s1[i] != '\0' && s2[i] != '\0'; i++)
+	for (part = 0; red_fish[part] != '\0' && blue_fish[part] != '\0'; part++)
 	{
-		if (s1[i] != s2[i])
-		{
-			chk = s1[i] - s2[i];
+		if (red_fish[part] != blue_fish[part])
 			break;
-		}
 	}
-	chk = s1[i] - s2[i];
+	chk = red_fish[part] - blue_fish[part];
 	return (chk);
 }
 /**
  * trawler - splits string on parser and returns array of parsed str
- * @input: the string to parse
- * @parser: char to use as delimiter
+ * @school_of_fish: the string to parse
+ * @net: char to use as delimiter
  * Return: array of parsed strings
  */
-char **trawler(char *input, char parser)
+char **trawler(char *school_of_fish, char net)
 {
-	int i, st, cnt = 0;
-	char **bufr;
-	char *arg;
+	int fish, st, cnt = 0;
+	char **haul;
+	char *catch;
 
-	printf("in trawler||%s\n", input);
+	printf("in trawler||%s\n", school_of_fish);
 
-	for (i = 0; input[i]; ++i)
+	for (fish = 0; school_of_fish[fish]; ++fish)
 	{
-		if (input[i] == parser)
+		if (school_of_fish[fish] == net)
 			++cnt;
 	}
 
-	bufr = malloc(sizeof(char *) * (cnt + 2));
-	if (!bufr)
+	haul = malloc(sizeof(char *) * (cnt + 2));
+	if (!haul)
 		exit(-1);
 
-	for (i = 0, st = 0, cnt = 0; input[i]; ++i)
+	for (fish = 0, st = 0, cnt = 0; school_of_fish[fish]; ++fish)
 	{
 		/* to consider " or o add a check bit  */		
-		if (input[i] == parser)
+		if (school_of_fish[fish] == net)
 		{
-			input[i] = '\0';
-			arg = (input + st);
-			bufr[cnt] = arg;
-			st = i + 1;
+			school_of_fish[fish] = '\0';
+			catch = (school_of_fish + st);
+			haul[cnt] = catch;
+			st = fish + 1;
 			++cnt;
-			printf("%s\n", arg);
+			printf("%s\n", catch);
 		}
 	}
 	/* if the last char is not a space */
-	if (st != i)
+	if (st != fish)
 	{
-		arg = (input + st);
-        bufr[cnt] = arg;
+		catch = (school_of_fish + st);
+        haul[cnt] = catch;
 		++cnt;
-		printf("%s\n", arg);
+		printf("%s\n", catch);
 		printf("%d |", cnt);
 	}
 	/* set the final value as NULL */
-	bufr[cnt] = NULL;
+	haul[cnt] = NULL;
 
-	return (bufr);
+	return (haul);
 }
 
-/* convert a number string to an int value */
-int amphibian(char *num)
+/* convert a number string to an int value if value was passed */
+int amphibian(char *tadpole)
 {
-	int rtrn;
+	int frog = 0;
 
-	for(rtrn = 0; *num; ++num)
+	if (tadpole)
 	{
-		rtrn *= 10;
-		rtrn += *num - '0';
+		for(; *tadpole; ++tadpole)
+		{
+			frog *= 10;
+			frog += *tadpole - '0';
+		}
 	}
-
-	return (rtrn);
+	return (frog);
 }
 
 /* need a strcat function here */
-char *strcat_fish(char *one_fish, char *two_fish)
+char *str_catfish(char *one_fish, char *two_fish)
 {
 	int i, size;
 	char *big_fish;
@@ -108,4 +107,18 @@ char *strcat_fish(char *one_fish, char *two_fish)
 	big_fish[size] = '\0';
 
 	return (big_fish);
+}
+/**
+ * _puts - prints out the str in one write call
+ * @str: pointer to a string array
+ * Return: void
+ */
+void _puts(char *str)
+{
+    int size = 0;
+    
+    while (str[size])
+      ++size;
+
+    write(1, str, size);
 }

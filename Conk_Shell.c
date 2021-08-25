@@ -6,92 +6,97 @@ int main(void)
 	extern char **environ;
 	char *input, *cmd_path;
 	char **my_argv, **path;
-	int exiting = 1, i, ex_code;
+	int swimming = 1, i, to_Davy_Jones_locker;
 	size_t sz_input = 0;
 	ssize_t chk;
 
 	/* establish global path variable */
 	path = path_fishing(environ);
 
-	while(exiting)
+	while(swimming)
 	{
-		printf("\n$ ");
+		_puts("\n$ ");
 
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
-			printf("input failure");
+			_puts("input failure");
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* needs strcmp to compare input to exit case */
-		if (!_strcmp(my_argv[0], "exit"))
+		if (!fish_cmp(my_argv[0], "exit"))
 		{
-			exiting = 0;
+			swimming = 0;
 			break;
 		}
-		if (!strcmp(my_argv[0], "env"))
+		if (!fish_cmp(my_argv[0], "env"))
 		{
 			depth_finder(environ);
+			free(my_argv);
+			continue;
 		}
-		if (!strcmp(my_argv[0], "path"))
+		if (!fish_cmp(my_argv[0], "path"))
 		{
 			for (i = 0; path[i]; ++i)
 			{
-				printf("%s", path[i]);
+				_puts(path[i]);
 				if (path[i + 1])
-					printf(":");
+					_puts(":");
 			}
+			free(my_argv);
+			continue;
 		}
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the execve with the argv[0] + the rest of the variables */
 		if (cmd_path)
+			/* fork process and run execve in child */
 			execve(cmd_path, my_argv, environ);
+		else
+		{
+			_puts(my_argv[0]);
+			_puts(": command not found");
+		}
 
 		free(my_argv);
+		free(cmd_path);
 	}
-	/* convert string to int value for exit code */
-	if (my_argv[1])
-	{
-		ex_code = amphibian(my_argv[1]);
-		free(input);
-		exit(ex_code);
-	}
+	/* for exit code convert string to int */
+	to_Davy_Jones_locker = amphibian(my_argv[1]);
 	free(input);
-	free(cmd_path);
+	exit(to_Davy_Jones_locker);
 }
 /**
  * path_fishing - find the path in the environ variable
- * @ocean: the environ variable information to trawl
+ * @ocean: the environ variable information to fish
  * Return: an array of Path strings
  */
 char **path_fishing(char **ocean)
 {
-	int i, j, st;
-	char *temp;
-	char **path_array;
+	int fish, part, st;
+	char *catch;
 
-	for (i = 0; ocean[i]; ++i)
+	for (fish = 0; ocean[fish]; ++fish)
 	{
 		/* search for = in string */
-		for (j = 0; ocean[i][j] && ocean[i][j] != '='; ++j)
+		for (part = 0; ocean[fish][part] && ocean[fish][part] != '='; ++part)
 		;
-		if (ocean[i][j] == '=')
+		if (ocean[fish][part] == '=')
 		{
-			temp = malloc(j + 1);
+			catch = malloc(part + 1);
 			/* copy over the identifier before the = */
-			for (st = 0; st < j; ++st)
-				temp[st] = ocean[i][st];
-			temp[st] = '\0';
+			for (st = 0; st < part; ++st)
+				catch[st] = ocean[fish][st];
+			catch[st] = '\0';
 			/* compare result with "PATH" */
-			if(!_strcmp(temp, "PATH"))
+			if(!fish_cmp(catch, "PATH"))
 			{
-				free(temp);
+				free(catch);
 				/* returned parsed path variables as array of char pntrs */
-				return (trawler((ocean[i] + (j+1)), ':'));
+				return (trawler((ocean[fish] + (part+1)), ':'));
 			}
-			free(temp);
+			free(catch);
 		}
 	}
 }
@@ -102,12 +107,16 @@ char **path_fishing(char **ocean)
  */
 void depth_finder(char **ocean)
 {
-	int i = 0;
+	int fish;
 
-	for (; ocean[i]; ++i)
-		printf("%s\n", ocean[i]);
+	for (fish = 0; ocean[fish]; ++fish)
+	{
+		_puts(ocean[fish]);
+		if (ocean[fish + 1])
+			_puts("\n");
+	}		
 }
-/* returns the correct path or NULL if access wasn't successfull */
+/* returns the correct path or NULL if access was unsuccessfull */
 char *deep_C_fishing(char *hook, char **sea)
 {
 	int fish;
@@ -115,7 +124,7 @@ char *deep_C_fishing(char *hook, char **sea)
 
 	for (fish = 0; sea[fish]; ++fish)
 	{
-		catch = strcat_fish(sea[fish], hook);
+		catch = str_catfish(sea[fish], hook);
 		printf("catch:%s\n", catch);
 		if (!access(catch, X_OK))
 			break;
