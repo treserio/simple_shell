@@ -29,19 +29,19 @@ int main(void)
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* needs strcmp to compare input to exit case */
-		if (!fish_cmp(my_argv[0], "exit"))
+		if (!fish_scales(my_argv[0], "exit"))
 		{
 			swimming = 0;
 			break;
 		}
-		if (!fish_cmp(my_argv[0], "env"))
+		if (!fish_scales(my_argv[0], "env"))
 		{
 			depth_finder(environ);
 			free(my_argv);
 			_puts("\n");
 			continue;
 		}
-		if (!fish_cmp(my_argv[0], "path"))
+		if (!fish_scales(my_argv[0], "path"))
 		{
 			for (i = 0; path[i]; ++i)
 			{
@@ -115,7 +115,7 @@ char **path_fishing(char **ocean)
 				catch[st] = ocean[fish][st];
 			catch[st] = '\0';
 			/* compare result with "PATH" */
-			if(!fish_cmp(catch, "PATH"))
+			if(!fish_scales(catch, "PATH"))
 			{
 				free(catch);
 				/* returned parsed path variables as array of char pntrs */

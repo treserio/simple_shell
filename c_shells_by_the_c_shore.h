@@ -13,7 +13,7 @@ char **path_fishing(char **);
 char *deep_C_fishing(char *hook, char **sea);
 
 /* string of pearls */
-int fish_cmp(char *red_fish, char *blue_fish);
+int fish_scales(char *red_fish, char *blue_fish);
 char **trawler(char *, char);
 char *str_catfish(char *one_fish, char *two_fish);
 

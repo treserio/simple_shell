@@ -1,11 +1,11 @@
 #include "c_shells_by_the_c_shore.h"
 /**
- * fish_cmp - compare 2 strings
+ * fish_scales - weigh fish and return difference, or 0 if they're =
  * @red_fish: first string to compare
  * @blue_fish: second string to compare
  * Return: linguistic difference in the deviant char, or zero if match
  */
-int fish_cmp(char *red_fish, char *blue_fish)
+int fish_scales(char *red_fish, char *blue_fish)
 {
 	int part, chk = 0;
 
