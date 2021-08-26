@@ -29,7 +29,6 @@ char **trawler(char *school_of_fish, char net)
 	char **haul;
 	char *catch;
 
-	printf("in trawler||%s\n", school_of_fish);
 
 	for (fish = 0; school_of_fish[fish]; ++fish)
 	{
@@ -51,17 +50,14 @@ char **trawler(char *school_of_fish, char net)
 			haul[cnt] = catch;
 			st = fish + 1;
 			++cnt;
-			printf("%s\n", catch);
 		}
 	}
 	/* if the last char is not a space */
 	if (st != fish)
 	{
 		catch = (school_of_fish + st);
-        haul[cnt] = catch;
+		haul[cnt] = catch;
 		++cnt;
-		printf("%s\n", catch);
-		printf("%d |", cnt);
 	}
 	/* set the final value as NULL */
 	haul[cnt] = NULL;

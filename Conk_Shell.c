@@ -15,15 +15,17 @@ int main(void)
 	path = path_fishing(environ);
 
 	/* do we need to isatty */
-	while(swimming)
+	while (swimming)
 	{
-		_puts("\n$ ");
+		_puts("$ ");
 
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
-			_puts("input failure");
+			_puts("input failure\n");
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
+		if (!input[0])
+			continue;
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* needs strcmp to compare input to exit case */
@@ -36,6 +38,7 @@ int main(void)
 		{
 			depth_finder(environ);
 			free(my_argv);
+			_puts("\n");
 			continue;
 		}
 		if (!fish_cmp(my_argv[0], "path"))
@@ -47,32 +50,39 @@ int main(void)
 					_puts(":");
 			}
 			free(my_argv);
+			_puts("\n");			
 			continue;
 		}
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the execve with the argv[0] + the rest of the variables */
-		if (cmd_path)
+		if (cmd_path && my_argv[0][0])
 		{
 			/* fork process and run execve in child, break into exe func? */
 			pid = fork();
 			if (pid < 0)
 			{
-				_puts("Unable to start process: ");
 				_puts(my_argv[0]);
+				_puts(": failed to start process\n");
 			}
 			else if (pid == 0)
-				execve(cmd_path, my_argv, environ);
+			{
+				if (execve(cmd_path, my_argv, environ) == -1);
+				{
+					free(cmd_path);
+					_puts(my_argv[0]);					
+					_puts(": Program failed to run.\n");
+					exit(-1);
+				}
+			}
 			else
 				(waitpid(pid, &chld_exit, 0));
-			printf("exit status:%d", chld_exit);
 		}
 		else
 		{
 			_puts(my_argv[0]);
-			_puts(": command not found");
+			_puts(": command not found\n");
 		}
-
 		free(my_argv);
 		free(cmd_path);
 	}
@@ -91,6 +101,7 @@ char **path_fishing(char **ocean)
 	int fish, part, st;
 	char *catch;
 
+	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
 	{
 		/* search for = in string */
@@ -139,7 +150,6 @@ char *deep_C_fishing(char *hook, char **sea)
 	for (fish = 0; sea[fish]; ++fish)
 	{
 		catch = str_catfish(sea[fish], hook);
-		printf("catch:%s\n", catch);
 		if (!access(catch, X_OK))
 			break;
 		else
