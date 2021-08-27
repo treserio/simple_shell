@@ -82,27 +82,35 @@ int amphibian(char *tadpole)
 }
 
 /* need a strcat function here */
-char *str_catfish(char *one_fish, char *two_fish)
+char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 {
 	int i, size;
-	char *big_fish;
+	char *catfish;
 
 	for (size = 0; one_fish[size]; ++size)
 	;
 	for (i = 0; two_fish[i]; ++size, ++i)
 	;
-	/* malloc size and copy strings to malloced buffes */
-	big_fish = malloc(size + 2);
-
+	/* if jelly_fish then malloc size + 2, else + 1 */	
+	if (jelly_fish)
+		catfish = malloc(size + 2);
+	else
+		catfish = malloc(size + 1);
+	/* copy strings to buffers */
 	for (size = 0; one_fish[size]; ++size)
-		big_fish[size] = one_fish[size];
-	big_fish[size] = '/';
-	for (i = 0, ++size; two_fish[i]; ++size, ++i)
-		big_fish[size] = two_fish[i];
+		catfish[size] = one_fish[size];
+	/* if jelly_fish then insert jelly_fish between fish */
+	if (jelly_fish)
+	{
+		catfish[size] = jelly_fish;
+		++size;
+	}
+	for (i = 0; two_fish[i]; ++size, ++i)
+		catfish[size] = two_fish[i];
 	/* set null byte for eos */
-	big_fish[size] = '\0';
+	catfish[size] = '\0';
 
-	return (big_fish);
+	return (catfish);
 }
 /**
  * _puts - prints out the str in one write call

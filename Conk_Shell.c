@@ -17,8 +17,11 @@ int main(void)
 	/* do we need to isatty */
 	while (swimming)
 	{
-		_puts("$ ");
-
+		if (isatty(STDIN_FILENO))
+		{
+			_puts(path[0]);
+			_puts("$ ");
+		}
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
 			_puts("input failure\n");
@@ -86,9 +89,12 @@ int main(void)
 		free(my_argv);
 		free(cmd_path);
 	}
+	printf("\n\nwhy is this running?\n");
 	/* for exit code convert string to int */
 	to_Davy_Jones_locker = amphibian(my_argv[1]);
 	free(input);
+	free(my_argv);	
+	free(path);
 	exit(to_Davy_Jones_locker);
 }
 /**
@@ -99,7 +105,7 @@ int main(void)
 char **path_fishing(char **ocean)
 {
 	int fish, part, st;
-	char *catch;
+	char *net, *catch, **haul;
 
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
@@ -109,19 +115,24 @@ char **path_fishing(char **ocean)
 		;
 		if (ocean[fish][part] == '=')
 		{
-			catch = malloc(part + 1);
+			net = malloc(part + 1);
 			/* copy over the identifier before the = */
 			for (st = 0; st < part; ++st)
-				catch[st] = ocean[fish][st];
-			catch[st] = '\0';
+				net[st] = ocean[fish][st];
+			net[st] = '\0';
+			/* compare result with PWD to locate working directory */
+			if(!fish_scales(net, "PWD"))
+				catch = (ocean[fish] + (part +1));
 			/* compare result with "PATH" */
-			if(!fish_scales(catch, "PATH"))
+			if(!fish_scales(net, "PATH"))
 			{
-				free(catch);
+				free(net);
+				catch = str_catfish(catch, (ocean[fish] + (part+1)), ':');
+				haul = trawler(catch, ':');
 				/* returned parsed path variables as array of char pntrs */
-				return (trawler((ocean[fish] + (part+1)), ':'));
+				return (haul);
 			}
-			free(catch);
+			free(net);
 		}
 	}
 }
@@ -149,11 +160,25 @@ char *deep_C_fishing(char *hook, char **sea)
 
 	for (fish = 0; sea[fish]; ++fish)
 	{
-		catch = str_catfish(sea[fish], hook);
+		catch = str_catfish(sea[fish], hook, '/');
+		printf("catch:%s\n", catch);
 		if (!access(catch, X_OK))
 			break;
 		else
+		{
+			free(catch);
 			catch = NULL;
+		}
 	}
 	return (catch);
+}
+/* free the array values of the malloced array */
+void release(char **caught)
+{
+	int fish;
+
+	for (fish = 0; caught[fish]; ++fish)
+		free(caught[fish]);
+	free(caught[fish]);
+	free(caught);
 }
