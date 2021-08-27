@@ -9,7 +9,7 @@ int main(void)
 	size_t sz_input = 0;
 	ssize_t chk;
 	pid_t pid;
-	puts("");
+
 	/* establish global path variable */
 	path = path_fishing(environ);
 
@@ -102,7 +102,7 @@ int main(void)
  */
 char **path_fishing(char **ocean)
 {
-	int fish, part, st;
+	int fish, part, st, pwd = 0;
 	char *net, *catch, **haul;
 
 	/* add pwd to 0 index and start at fish +1 */
@@ -119,10 +119,14 @@ char **path_fishing(char **ocean)
 				net[st] = ocean[fish][st];
 			net[st] = '\0';
 			/* compare result with PWD to locate working directory */
-			if (!fish_scales(net, "PWD"))
+			if (!fish_scales(net, "PWD") && !pwd)
+			{
 				catch = (ocean[fish] + (part + 1));
+				pwd = 1;
+				fish = 0;
+			}
 			/* compare result with "PATH" */
-			if (!fish_scales(net, "PATH"))
+			if (!fish_scales(net, "PATH") && pwd)
 			{
 				free(net);
 				catch = str_catfish(catch, (ocean[fish] + (part + 1)), ':');
