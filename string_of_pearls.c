@@ -29,7 +29,6 @@ char **trawler(char *school_of_fish, char net)
 	char **haul;
 	char *catch;
 
-
 	for (fish = 0; school_of_fish[fish]; ++fish)
 	{
 		if (school_of_fish[fish] == net)
@@ -61,7 +60,6 @@ char **trawler(char *school_of_fish, char net)
 	}
 	/* set the final value as NULL */
 	haul[cnt] = NULL;
-
 	return (haul);
 }
 
@@ -109,7 +107,6 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 		catfish[size] = two_fish[i];
 	/* set null byte for eos */
 	catfish[size] = '\0';
-
 	return (catfish);
 }
 /**

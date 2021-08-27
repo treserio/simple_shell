@@ -3,14 +3,13 @@
 
 int main(void)
 {
-	extern char **environ;
-	char *input, *cmd_path;
+	char *input = 0, *cmd_path;
 	char **my_argv, **path;
 	int swimming = 1, i, to_Davy_Jones_locker, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
 	pid_t pid;
-
+	puts("");
 	/* establish global path variable */
 	path = path_fishing(environ);
 
@@ -72,7 +71,6 @@ int main(void)
 			{
 				if (execve(cmd_path, my_argv, environ) == -1)
 				{
-					free(cmd_path);
 					_puts(my_argv[0]);
 					_puts(": Program failed to run.\n");
 					exit(-1);
@@ -86,14 +84,14 @@ int main(void)
 			_puts(my_argv[0]);
 			_puts(": command not found\n");
 		}
-		free(my_argv);
 		free(cmd_path);
+		free(my_argv);
 	}
-	printf("\n\nwhy is this running?\n");
 	/* for exit code convert string to int */
 	to_Davy_Jones_locker = amphibian(my_argv[1]);
-	free(input);
-	free(my_argv);
+	release(my_argv);
+	/* only free path[0] since the rest are part of environ */
+	free(path[0]);
 	free(path);
 	exit(to_Davy_Jones_locker);
 }
@@ -161,10 +159,8 @@ char *deep_C_fishing(char *hook, char **sea)
 	for (fish = 0; sea[fish]; ++fish)
 	{
 		catch = str_catfish(sea[fish], hook, '/');
-		printf("catch:%s\n", catch);
 		if (!access(catch, X_OK))
 			break;
-
 		free(catch);
 		catch = NULL;
 	}

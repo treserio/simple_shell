@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
 void depth_finder(char **ocean);
 char **path_fishing(char **ocean);
 char *deep_C_fishing(char *hook, char **sea);
