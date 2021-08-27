@@ -53,7 +53,7 @@ int main(void)
 					_puts(":");
 			}
 			free(my_argv);
-			_puts("\n");			
+			_puts("\n");
 			continue;
 		}
 		/* confirm the argv[0] is a system function before execve */
@@ -70,10 +70,10 @@ int main(void)
 			}
 			else if (pid == 0)
 			{
-				if (execve(cmd_path, my_argv, environ) == -1);
+				if (execve(cmd_path, my_argv, environ) == -1)
 				{
 					free(cmd_path);
-					_puts(my_argv[0]);					
+					_puts(my_argv[0]);
 					_puts(": Program failed to run.\n");
 					exit(-1);
 				}
@@ -93,7 +93,7 @@ int main(void)
 	/* for exit code convert string to int */
 	to_Davy_Jones_locker = amphibian(my_argv[1]);
 	free(input);
-	free(my_argv);	
+	free(my_argv);
 	free(path);
 	exit(to_Davy_Jones_locker);
 }
@@ -121,13 +121,13 @@ char **path_fishing(char **ocean)
 				net[st] = ocean[fish][st];
 			net[st] = '\0';
 			/* compare result with PWD to locate working directory */
-			if(!fish_scales(net, "PWD"))
-				catch = (ocean[fish] + (part +1));
+			if (!fish_scales(net, "PWD"))
+				catch = (ocean[fish] + (part + 1));
 			/* compare result with "PATH" */
-			if(!fish_scales(net, "PATH"))
+			if (!fish_scales(net, "PATH"))
 			{
 				free(net);
-				catch = str_catfish(catch, (ocean[fish] + (part+1)), ':');
+				catch = str_catfish(catch, (ocean[fish] + (part + 1)), ':');
 				haul = trawler(catch, ':');
 				/* returned parsed path variables as array of char pntrs */
 				return (haul);
@@ -150,7 +150,7 @@ void depth_finder(char **ocean)
 		_puts(ocean[fish]);
 		if (ocean[fish + 1])
 			_puts("\n");
-	}		
+	}
 }
 /* returns the correct path or NULL if access was unsuccessfull */
 char *deep_C_fishing(char *hook, char **sea)
@@ -164,11 +164,9 @@ char *deep_C_fishing(char *hook, char **sea)
 		printf("catch:%s\n", catch);
 		if (!access(catch, X_OK))
 			break;
-		else
-		{
-			free(catch);
-			catch = NULL;
-		}
+
+		free(catch);
+		catch = NULL;
 	}
 	return (catch);
 }

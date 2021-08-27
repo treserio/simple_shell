@@ -42,7 +42,7 @@ char **trawler(char *school_of_fish, char net)
 
 	for (fish = 0, st = 0, cnt = 0; school_of_fish[fish]; ++fish)
 	{
-		/* to consider " or o add a check bit  */		
+		/* to consider " or ' add a check bit */
 		if (school_of_fish[fish] == net)
 		{
 			school_of_fish[fish] = '\0';
@@ -72,7 +72,7 @@ int amphibian(char *tadpole)
 
 	if (tadpole)
 	{
-		for(; *tadpole; ++tadpole)
+		for (; *tadpole; ++tadpole)
 		{
 			frog *= 10;
 			frog += *tadpole - '0';
@@ -91,7 +91,7 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 	;
 	for (i = 0; two_fish[i]; ++size, ++i)
 	;
-	/* if jelly_fish then malloc size + 2, else + 1 */	
+	/* if jelly_fish then malloc size + 2, else + 1 */
 	if (jelly_fish)
 		catfish = malloc(size + 2);
 	else
@@ -119,10 +119,10 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
  */
 void _puts(char *str)
 {
-    int size = 0;
-    
-    while (str[size])
-      ++size;
+	int size = 0;
 
-    write(1, str, size);
+	while (str[size])
+		++size;
+
+	write(1, str, size);
 }
