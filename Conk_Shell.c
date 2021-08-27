@@ -1,6 +1,10 @@
 #include "c_shells_by_the_c_shore.h"
 #include "string_of_pearls.c"
-
+/**
+ * main - a POSIX complient shell
+ * @ocean: the environ variable information to fish
+ * Return: the exit code given by the user when exit cmnd is given
+ */
 int main(void)
 {
 	char *input = 0, *cmd_path;
@@ -82,7 +86,7 @@ int main(void)
 		else
 		{
 			_puts(my_argv[0]);
-			_puts(": command not found\n");
+			_puts(": command not found or permission denied\n");
 		}
 		free(cmd_path);
 		free(my_argv);
@@ -96,7 +100,7 @@ int main(void)
 	exit(to_Davy_Jones_locker);
 }
 /**
- * path_fishing - find the path in the environ variable
+ * path_fishing - make a path variable with wdir and values in environ var
  * @ocean: the environ variable information to fish
  * Return: an array of Path strings
  */
@@ -154,7 +158,12 @@ void depth_finder(char **ocean)
 			_puts("\n");
 	}
 }
-/* returns the correct path or NULL if access was unsuccessfull */
+/**
+ * deep_C_fishing - look through path strings for the input cmnd to run
+ * @hook: the argv[0] value, or cmnd expected to run
+ * @sea: the array of strings stored in path
+ * Return: full path of accessable cmnd, else NULL if missing or unable to exe
+ */
 char *deep_C_fishing(char *hook, char **sea)
 {
 	int fish;
@@ -170,7 +179,12 @@ char *deep_C_fishing(char *hook, char **sea)
 	}
 	return (catch);
 }
-/* free the array values of the malloced array */
+/**
+ * release - releases all of the caught fish
+ * Description: frees all the malloced strings in a char * array, and the array
+ * @caught: the array to free
+ * Return: void
+ */
 void release(char **caught)
 {
 	int fish;

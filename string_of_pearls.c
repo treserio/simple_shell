@@ -18,7 +18,7 @@ int fish_scales(char *red_fish, char *blue_fish)
 	return (chk);
 }
 /**
- * trawler - splits string on parser and returns array of parsed str
+ * trawler - splits school_of_fish(char *) on net(char) and adds to array
  * @school_of_fish: the string to parse
  * @net: char to use as delimiter
  * Return: array of parsed strings
@@ -62,8 +62,11 @@ char **trawler(char *school_of_fish, char net)
 	haul[cnt] = NULL;
 	return (haul);
 }
-
-/* convert a number string to an int value if value was passed */
+/**
+ * amphibian - turns a tadpole(char *) into a frog(int)
+ * @tadpole: the numeric char str to convert to int
+ * Return: the frog(int)
+ */
 int amphibian(char *tadpole)
 {
 	int frog = 0;
@@ -78,8 +81,13 @@ int amphibian(char *tadpole)
 	}
 	return (frog);
 }
-
-/* need a strcat function here */
+/**
+ * str_catfish - concatonates 2 strings with a potential insert
+ * @one_fish: first string to use in creating catfish
+ * @two_fish: second string to use in creating catfish
+ * @jelly_fish: char to insert between one_fish & two_fish
+ * Return: pointer to allocated memory containing catfish
+ */
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 {
 	int i, size;
