@@ -88,7 +88,7 @@ int main(void)
 			_puts(my_argv[0]);
 			_puts(": command not found or permission denied\n");
 		}
-		/*	free(cmd_path); */
+		free(cmd_path);
 		free(my_argv);
 	}
 	/* for exit code convert string to int */
@@ -179,7 +179,7 @@ char *deep_C_fishing(char *hook, char **sea)
 	/* if the hook[0] is a . or a / return it as the path */
 	if (hook[0] == '/' || hook[0] == '.')
 	{
-		catch = hook;
+		catch = str_catfish(hook, "", 0);
 		if (access(catch, X_OK))
 			catch = NULL;
 	}
