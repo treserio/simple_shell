@@ -88,7 +88,7 @@ int main(void)
 			_puts(my_argv[0]);
 			_puts(": command not found or permission denied\n");
 		}
-		free(cmd_path);
+		/*	free(cmd_path); */
 		free(my_argv);
 	}
 	/* for exit code convert string to int */
@@ -108,6 +108,12 @@ char **path_fishing(char **ocean)
 {
 	int fish, part, st, pwd = 0;
 	char *net, *catch, **haul;
+
+	/* confirm that there is an ocean to swim in */
+	if (!ocean)
+	{
+		/* path[0][0] = current working directory, need to figure out how to find */
+	}
 
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
@@ -150,6 +156,7 @@ char **path_fishing(char **ocean)
 void depth_finder(char **ocean)
 {
 	int fish;
+	/* if !ocean put env variable empty or missing? */
 
 	for (fish = 0; ocean[fish]; ++fish)
 	{
@@ -169,13 +176,23 @@ char *deep_C_fishing(char *hook, char **sea)
 	int fish;
 	char *catch = NULL;
 
-	for (fish = 0; sea[fish]; ++fish)
+	/* if the hook[0] is a . or a / return it as the path */
+	if (hook[0] == '/' || hook[0] == '.')
 	{
-		catch = str_catfish(sea[fish], hook, '/');
-		if (!access(catch, X_OK))
-			break;
-		free(catch);
-		catch = NULL;
+		catch = hook;
+		if (access(catch, X_OK))
+			catch = NULL;
+	}
+	else
+	{
+		for (fish = 0; sea[fish]; ++fish)
+		{
+			catch = str_catfish(sea[fish], hook, '/');
+			if (!access(catch, X_OK))
+				break;
+			free(catch);
+			catch = NULL;
+		}
 	}
 	return (catch);
 }
