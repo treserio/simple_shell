@@ -130,7 +130,7 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
  */
 void _puts(const unsigned int n, ...)
 {
-	int size, i;
+	unsigned int size, i;
 	char *str;
 	va_list str_array;
 

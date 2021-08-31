@@ -1,3 +1,4 @@
+#include "c_shells_by_the_c_shore.h"
 /**
  * charter - checks if one of our builtin functions can run
  * @vessel: my_argv, all the arguments of the user input
@@ -35,6 +36,7 @@ int charter(char **vessel, char **course, char **ocean)
 		/* call cd function here */
 		return (1);
 	}
+	return (2);
 }
 /*
  * cd command to change path[0] value

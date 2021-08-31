@@ -1,6 +1,4 @@
 #include "c_shells_by_the_c_shore.h"
-#include "string_of_pearls.c"
-#include "vessels.c"
 /**
  * main - a POSIX complient shell
  * Return: the exit code given by the user when exit cmnd is given
@@ -34,13 +32,17 @@ int main(void)
 		/* check for builtins and takes appropriate action */
 		chk = charter(my_argv, path, environ);
 		if (chk == 0)
+		{
+			sailing = 0;
 			break;
+		}
 		else if (chk == 1)
 			continue;
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
 		chld_exit = catch_o_the_day(cmd_path, my_argv, environ);
+		if (chld_exit) {}
 		free(cmd_path);
 		free(my_argv);
 	}
@@ -94,6 +96,7 @@ char **path_fishing(char **ocean)
 			free(net);
 		}
 	}
+	return (NULL);
 }
 /**
  * depth_finder - print the environment info
@@ -155,11 +158,12 @@ int release(char **pathfish, char **my_argvfish, char *inputfish)
 	int to_Davy_Jones_locker = 0;
 
 	/* for exit code convert string to int */
-	if (my_argvfish)
+	if (my_argvfish && my_argvfish[1])
 		to_Davy_Jones_locker = amphibian(my_argvfish[1]);
 
 	free(inputfish);
-	free(my_argvfish);
+	if (my_argvfish)
+		free(my_argvfish);
 
 	/* only free path[0] since the rest are part of environ */
 	free(pathfish[0]);
