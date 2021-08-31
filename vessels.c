@@ -36,9 +36,11 @@ int charter(char **vessel, char **course, char **ocean)
 		return (1);
 	}
 }
-/* cd command to change path[0] value
-int change_port(char **course)
-{} */
+/*
+ * cd command to change path[0] value
+ * int change_port(char **course)
+ * {}
+ */
 
 /**
  * catch_o_the_day - starts a child process and runs the_big_one(cmd_path)

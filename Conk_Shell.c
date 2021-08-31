@@ -3,7 +3,6 @@
 #include "vessels.c"
 /**
  * main - a POSIX complient shell
- * @ocean: the environ variable information to fish
  * Return: the exit code given by the user when exit cmnd is given
  */
 int main(void)
@@ -12,7 +11,6 @@ int main(void)
 	int sailing = 1, to_Davy_Jones_locker, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
-	pid_t pid;
 
 	/* establish global path variable */
 	path = path_fishing(environ);
@@ -20,7 +18,8 @@ int main(void)
 	{
 		if (isatty(STDIN_FILENO))
 			_puts(2, path[0], "$ ");
-		if ((chk = getline(&input, &sz_input, stdin)) == -1)
+		chk = getline(&input, &sz_input, stdin);
+		if (chk == -1)
 		{
 			my_argv = NULL;
 			break;
@@ -33,7 +32,8 @@ int main(void)
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* check for builtins and takes appropriate action */
-		if ((chk = charter(my_argv, path, environ)) == 0)
+		chk = charter(my_argv, path, environ);
+		if (chk == 0)
 			break;
 		else if (chk == 1)
 			continue;
@@ -60,9 +60,8 @@ char **path_fishing(char **ocean)
 	/* confirm that there is an ocean to swim in */
 	if (!ocean)
 	{
-		/* path[0][0] = current working directory, need to figure out how to find */
+	/* path[0][0] = current working directory, need to figure out how to find */
 	}
-
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
 	{
@@ -161,7 +160,7 @@ int release(char **pathfish, char **my_argvfish, char *inputfish)
 
 	free(inputfish);
 	free(my_argvfish);
-	
+
 	/* only free path[0] since the rest are part of environ */
 	free(pathfish[0]);
 	free(pathfish);
