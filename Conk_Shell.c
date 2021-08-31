@@ -1,5 +1,6 @@
 #include "c_shells_by_the_c_shore.h"
 #include "string_of_pearls.c"
+#include "vessels.c"
 /**
  * main - a POSIX complient shell
  * @ocean: the environ variable information to fish
@@ -7,82 +8,39 @@
  */
 int main(void)
 {
-	char *input = 0, *cmd_path = NULL;
-	char **my_argv, **path;
-	int swimming = 1, i, to_Davy_Jones_locker, chld_exit;
+	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
+	int sailing = 1, to_Davy_Jones_locker, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
 	pid_t pid;
 
 	/* establish global path variable */
 	path = path_fishing(environ);
-
-	/* do we need to isatty */
-	while (swimming)
+	while (sailing)
 	{
 		if (isatty(STDIN_FILENO))
 			_puts(2, path[0], "$ ");
-		chk = getline(&input, &sz_input, stdin);
-		if (chk == -1)
+		if ((chk = getline(&input, &sz_input, stdin)) == -1)
 		{
 			my_argv = NULL;
-			swimming = 0;
 			break;
 		}
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
-		if (!input[0])
+		/* checking staces & blank entries */
+		if (!input[0] || input[0] == ' ')
 			continue;
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
-		/* needs strcmp to compare input to exit case */
-		if (!fish_scales(my_argv[0], "exit"))
-		{
-			swimming = 0;
+		/* check for builtins and takes appropriate action */
+		if ((chk = charter(my_argv, path, environ)) == 0)
 			break;
-		}
-		if (!fish_scales(my_argv[0], "env"))
-		{
-			depth_finder(environ);
-			free(my_argv);
-			_puts(1, "\n");
+		else if (chk == 1)
 			continue;
-		}
-		if (!fish_scales(my_argv[0], "path"))
-		{
-			for (i = 0; path[i]; ++i)
-			{
-				_puts(1, path[i]);
-				if (path[i + 1])
-					_puts(1, ":");
-			}
-			free(my_argv);
-			_puts(1, "\n");
-			continue;
-		}
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
-		/* run the execve with the argv[0] + the rest of the variables */
-		if (cmd_path && my_argv[0][0])
-		{
-			/* fork process and run execve in child, break into exe func? */
-			pid = fork();
-			if (pid < 0)
-				_puts(2, my_argv[0], ": failed to start process\n");
-			else if (pid == 0)
-			{
-				if (execve(cmd_path, my_argv, environ) == -1)
-				{
-					_puts(2, my_argv[0], ": Program failed to run.\n");
-					exit(-1);
-				}
-			}
-			else
-				(waitpid(pid, &chld_exit, 0));
-		}
-		else
-			_puts(2, my_argv[0], ": command not found or permission denied\n");
-
+		/* run the command */
+		chld_exit = catch_o_the_day(cmd_path, my_argv, environ);
 		free(cmd_path);
 		free(my_argv);
 	}
@@ -195,7 +153,7 @@ char *deep_C_fishing(char *hook, char **sea)
  */
 int release(char **pathfish, char **my_argvfish, char *inputfish)
 {
-	int to_Davy_Jones_locker;
+	int to_Davy_Jones_locker = 0;
 
 	/* for exit code convert string to int */
 	if (my_argvfish)

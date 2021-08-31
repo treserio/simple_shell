@@ -70,7 +70,13 @@ char **trawler(char *school_of_fish, char net)
 int amphibian(char *tadpole)
 {
 	int frog = 0;
+	int neg = 1;
 
+	if (*tadpole == '-')
+	{
+		++tadpole;
+		neg = -1;
+	}
 	if (tadpole)
 	{
 		for (; *tadpole; ++tadpole)
@@ -79,7 +85,7 @@ int amphibian(char *tadpole)
 			frog += *tadpole - '0';
 		}
 	}
-	return (frog);
+	return (frog * neg);
 }
 /**
  * str_catfish - concatonates 2 strings with a potential insert

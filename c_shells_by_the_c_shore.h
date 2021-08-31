@@ -23,4 +23,7 @@ char **trawler(char *school_of_fish, char net);
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
 void _puts(const unsigned int n, ...);
 
+/* vessels */
+int charter(char **vessel, char **course, char **ocean);
+
 #endif
