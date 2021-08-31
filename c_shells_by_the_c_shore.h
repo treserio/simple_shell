@@ -15,7 +15,7 @@ extern char **environ;
 void depth_finder(char **ocean);
 char **path_fishing(char **ocean);
 char *deep_C_fishing(char *hook, char **sea);
-void release(char **caught);
+int release(char **pathfish, char **my_argvfish, char *inputfish);
 
 /* string_of_pearls */
 int fish_scales(char *red_fish, char *blue_fish);

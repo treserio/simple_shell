@@ -69,7 +69,6 @@ int main(void)
 			pid = fork();
 			if (pid < 0)
 				_puts(2, my_argv[0], ": failed to start process\n");
-
 			else if (pid == 0)
 			{
 				if (execve(cmd_path, my_argv, environ) == -1)
@@ -192,7 +191,7 @@ char *deep_C_fishing(char *hook, char **sea)
  * @pathfish: the path variable and path[0], the rest belong to environ
  * @my_argvfish: the location for our my_argv variable
  * @inputfish: the input from getline
- * Return: void
+ * Return: the value to use as the exit code
  */
 int release(char **pathfish, char **my_argvfish, char *inputfish)
 {
@@ -204,6 +203,7 @@ int release(char **pathfish, char **my_argvfish, char *inputfish)
 
 	free(inputfish);
 	free(my_argvfish);
+	
 	/* only free path[0] since the rest are part of environ */
 	free(pathfish[0]);
 	free(pathfish);

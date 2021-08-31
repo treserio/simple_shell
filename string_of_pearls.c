@@ -130,7 +130,7 @@ void _puts(const unsigned int n, ...)
 
 	va_start(str_array, n);
 
-	for (i = 0; i < n; ++i)
+	for (i = 0, size = 0; i < n; ++i, size = 0)
 	{
 		str = va_arg(str_array, char *);
 
