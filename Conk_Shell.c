@@ -32,10 +32,7 @@ int main(void)
 		/* check for builtins and takes appropriate action */
 		chk = charter(my_argv, path, environ);
 		if (chk == 0)
-		{
-			sailing = 0;
 			break;
-		}
 		else if (chk == 1)
 			continue;
 		/* confirm the argv[0] is a system function before execve */
