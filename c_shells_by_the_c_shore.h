@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdarg.h>
 
 extern char **environ;
 
@@ -20,5 +21,6 @@ void release(char **caught);
 int fish_scales(char *red_fish, char *blue_fish);
 char **trawler(char *school_of_fish, char net);
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
+void _puts(const unsigned int n, ...);
 
 #endif

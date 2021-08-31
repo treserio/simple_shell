@@ -119,15 +119,24 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 }
 /**
  * _puts - prints out the str in one write call
- * @str: pointer to a string array
+ * @n: the number of (char *) given to _puts to print
  * Return: void
  */
-void _puts(char *str)
+void _puts(const unsigned int n, ...)
 {
-	int size = 0;
+	int size, i;
+	char *str;
+	va_list str_array;
 
-	while (str[size])
-		++size;
+	va_start(str_array, n);
 
-	write(1, str, size);
+	for (i = 0; i < n; ++i)
+	{
+		str = va_arg(str_array, char *);
+
+		while (str[size])
+			++size;
+
+		write(1, str, size);
+	}
 }

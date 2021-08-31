@@ -7,7 +7,7 @@
  */
 int main(void)
 {
-	char *input = 0, *cmd_path;
+	char *input = 0, *cmd_path = NULL;
 	char **my_argv, **path;
 	int swimming = 1, i, to_Davy_Jones_locker, chld_exit;
 	size_t sz_input = 0;
@@ -21,13 +21,14 @@ int main(void)
 	while (swimming)
 	{
 		if (isatty(STDIN_FILENO))
-		{
-			_puts(path[0]);
-			_puts("$ ");
-		}
+			_puts(2, path[0], "$ ");
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
-			_puts("input failure\n");
+		{
+			my_argv = NULL;
+			swimming = 0;
+			break;
+		}
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
 		if (!input[0])
@@ -44,19 +45,19 @@ int main(void)
 		{
 			depth_finder(environ);
 			free(my_argv);
-			_puts("\n");
+			_puts(1, "\n");
 			continue;
 		}
 		if (!fish_scales(my_argv[0], "path"))
 		{
 			for (i = 0; path[i]; ++i)
 			{
-				_puts(path[i]);
+				_puts(1, path[i]);
 				if (path[i + 1])
-					_puts(":");
+					_puts(1, ":");
 			}
 			free(my_argv);
-			_puts("\n");
+			_puts(1, "\n");
 			continue;
 		}
 		/* confirm the argv[0] is a system function before execve */
@@ -67,16 +68,13 @@ int main(void)
 			/* fork process and run execve in child, break into exe func? */
 			pid = fork();
 			if (pid < 0)
-			{
-				_puts(my_argv[0]);
-				_puts(": failed to start process\n");
-			}
+				_puts(2, my_argv[0], ": failed to start process\n");
+
 			else if (pid == 0)
 			{
 				if (execve(cmd_path, my_argv, environ) == -1)
 				{
-					_puts(my_argv[0]);
-					_puts(": Program failed to run.\n");
+					_puts(2, my_argv[0], ": Program failed to run.\n");
 					exit(-1);
 				}
 			}
@@ -84,19 +82,12 @@ int main(void)
 				(waitpid(pid, &chld_exit, 0));
 		}
 		else
-		{
-			_puts(my_argv[0]);
-			_puts(": command not found or permission denied\n");
-		}
+			_puts(2, my_argv[0], ": command not found or permission denied\n");
+
 		free(cmd_path);
 		free(my_argv);
 	}
-	/* for exit code convert string to int */
-	to_Davy_Jones_locker = amphibian(my_argv[1]);
-	release(my_argv);
-	/* only free path[0] since the rest are part of environ */
-	free(path[0]);
-	free(path);
+	to_Davy_Jones_locker = release(path, my_argv, input);
 	exit(to_Davy_Jones_locker);
 }
 /**
@@ -160,9 +151,9 @@ void depth_finder(char **ocean)
 
 	for (fish = 0; ocean[fish]; ++fish)
 	{
-		_puts(ocean[fish]);
+		_puts(1, ocean[fish]);
 		if (ocean[fish + 1])
-			_puts("\n");
+			_puts(1, "\n");
 	}
 }
 /**
@@ -197,17 +188,25 @@ char *deep_C_fishing(char *hook, char **sea)
 	return (catch);
 }
 /**
- * release - releases all of the caught fish
- * Description: frees all the malloced strings in a char * array, and the array
- * @caught: the array to free
+ * release - free the memory we've caught
+ * @pathfish: the path variable and path[0], the rest belong to environ
+ * @my_argvfish: the location for our my_argv variable
+ * @inputfish: the input from getline
  * Return: void
  */
-void release(char **caught)
+int release(char **pathfish, char **my_argvfish, char *inputfish)
 {
-	int fish;
+	int to_Davy_Jones_locker;
 
-	for (fish = 0; caught[fish]; ++fish)
-		free(caught[fish]);
-	free(caught[fish]);
-	free(caught);
+	/* for exit code convert string to int */
+	if (my_argvfish)
+		to_Davy_Jones_locker = amphibian(my_argvfish[1]);
+
+	free(inputfish);
+	free(my_argvfish);
+	/* only free path[0] since the rest are part of environ */
+	free(pathfish[0]);
+	free(pathfish);
+
+	return (to_Davy_Jones_locker);
 }
