@@ -18,51 +18,6 @@ int fish_scales(char *red_fish, char *blue_fish)
 	return (chk);
 }
 /**
- * trawler - splits school_of_fish(char *) on net(char) and adds to array
- * @school_of_fish: the string to parse
- * @net: char to use as delimiter
- * Return: array of parsed strings
- */
-char **trawler(char *school_of_fish, char net)
-{
-	int fish, st, cnt = 0;
-	char **haul;
-	char *catch;
-
-	for (fish = 0; school_of_fish[fish]; ++fish)
-	{
-		if (school_of_fish[fish] == net)
-			++cnt;
-	}
-
-	haul = malloc(sizeof(char *) * (cnt + 2));
-	if (!haul)
-		exit(-1);
-
-	for (fish = 0, st = 0, cnt = 0; school_of_fish[fish]; ++fish)
-	{
-		/* to consider " or ' add a check bit */
-		if (school_of_fish[fish] == net)
-		{
-			school_of_fish[fish] = '\0';
-			catch = (school_of_fish + st);
-			haul[cnt] = catch;
-			st = fish + 1;
-			++cnt;
-		}
-	}
-	/* if the last char is not a space */
-	if (st != fish)
-	{
-		catch = (school_of_fish + st);
-		haul[cnt] = catch;
-		++cnt;
-	}
-	/* set the final value as NULL */
-	haul[cnt] = NULL;
-	return (haul);
-}
-/**
  * amphibian - turns a tadpole(char *) into a frog(int)
  * @tadpole: the numeric char str to convert to int
  * Return: the frog(int)
@@ -86,6 +41,34 @@ int amphibian(char *tadpole)
 		}
 	}
 	return (frog * neg);
+}
+/**
+ * amphibian - turns a tadpole(char *) into a frog(int)
+ * @tadpole: the numeric char str to convert to int
+ * Return: the frog(int)
+ */
+char *dive(int surface)
+{
+	unsigned int fathom = 0, distance, neg = 0;
+	char *depth;
+
+	if (surface < 0)
+	{
+		surface *= -1;
+		neg = 1;
+	}
+	for (distance = 1; (surface / distance) >= 10; distance *= 10)
+	;
+	depth = malloc(distance);
+	if (neg)
+	{
+		depth[fathom] = '-';
+		++fathom;
+	}
+	for (; distance >= 1; surface %= distance, distance /= 10, ++fathom)
+		depth[fathom] = (surface / distance) + '0';
+
+	return (depth);
 }
 /**
  * str_catfish - concatonates 2 strings with a potential insert

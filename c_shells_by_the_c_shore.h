@@ -19,13 +19,15 @@ int release(char **pathfish, char **my_argvfish, char *inputfish);
 
 /* string_of_pearls */
 int amphibian(char *tadpole);
+char *dive(int surface);
 int fish_scales(char *red_fish, char *blue_fish);
 void _puts(const unsigned int n, ...);
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
-char **trawler(char *school_of_fish, char net);
+
 
 /* vessels */
-int catch_o_the_day(char *the_big_one, char **vessel, char **ocean);
+int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage, int distance);
 int charter(char **vessel, char **course, char **ocean);
+char **trawler(char *school_of_fish, char net);
 
 #endif

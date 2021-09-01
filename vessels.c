@@ -51,7 +51,7 @@ int charter(char **vessel, char **course, char **ocean)
  * @ocean: the environ variable
  * Return: the exit code of the forked process
  */
-int catch_o_the_day(char *the_big_one, char **vessel, char **ocean)
+int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage, int distance)
 {
 	pid_t dingy;
 	int sunk;
@@ -75,7 +75,52 @@ int catch_o_the_day(char *the_big_one, char **vessel, char **ocean)
 			(waitpid(dingy, &sunk, 0));
 	}
 	else
-		_puts(2, vessel[0], ": command not found or permission denied\n");
+		_puts(6, voyage, ": ", dive(distance), ": ", vessel[0], ": not found\n");
 
 	return (sunk);
+}
+/**
+ * trawler - splits school_of_fish(char *) on net(char) and adds to array
+ * @school_of_fish: the string to parse
+ * @net: char to use as delimiter
+ * Return: array of parsed strings
+ */
+char **trawler(char *school_of_fish, char net)
+{
+	int fish, st, cnt = 0;
+	char **haul;
+	char *catch;
+
+	for (fish = 0; school_of_fish[fish]; ++fish)
+	{
+		if (school_of_fish[fish] == net)
+			++cnt;
+	}
+
+	haul = malloc(sizeof(char *) * (cnt + 2));
+	if (!haul)
+		exit(-1);
+
+	for (fish = 0, st = 0, cnt = 0; school_of_fish[fish]; ++fish)
+	{
+		/* to consider " or ' add a check bit */
+		if (school_of_fish[fish] == net)
+		{
+			school_of_fish[fish] = '\0';
+			catch = (school_of_fish + st);
+			haul[cnt] = catch;
+			st = fish + 1;
+			++cnt;
+		}
+	}
+	/* if the last char is not a space */
+	if (st != fish)
+	{
+		catch = (school_of_fish + st);
+		haul[cnt] = catch;
+		++cnt;
+	}
+	/* set the final value as NULL */
+	haul[cnt] = NULL;
+	return (haul);
 }

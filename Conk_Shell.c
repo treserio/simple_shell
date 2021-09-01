@@ -3,13 +3,14 @@
  * main - a POSIX complient shell
  * Return: the exit code given by the user when exit cmnd is given
  */
-int main(void)
+int main(int sh_ac, char **sh_argv)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker; /*chld_exit*/
+	int sailing = 1, to_Davy_Jones_locker, league = 0; /*chld_exit*/
 	size_t sz_input = 0;
 	ssize_t chk;
 
+	(void)sh_ac;
 	/* establish global path variable */
 	path = path_fishing(environ);
 	while (sailing)
@@ -22,6 +23,7 @@ int main(void)
 			my_argv = NULL;
 			break;
 		}
+		++league;
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
 		/* checking staces & blank entries */
@@ -38,7 +40,7 @@ int main(void)
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
-		catch_o_the_day(cmd_path, my_argv, environ);
+		catch_o_the_day(cmd_path, my_argv, environ, sh_argv[0], league);
 		free(cmd_path);
 		free(my_argv);
 	}
