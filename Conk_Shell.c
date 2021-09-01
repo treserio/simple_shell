@@ -58,7 +58,7 @@ char **path_fishing(char **ocean)
 	/* confirm that there is an ocean to swim in */
 	if (!ocean)
 	{
-	} /* path[0][0] = current working directory, need to figure out how to find */
+	} /*path[0][0] = current working directory, need to figure out how to find*/
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
 	{
