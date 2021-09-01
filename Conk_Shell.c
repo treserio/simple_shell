@@ -6,7 +6,7 @@
 int main(void)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker, chld_exit;
+	int sailing = 1, to_Davy_Jones_locker, /*chld_exit*/;
 	size_t sz_input = 0;
 	ssize_t chk;
 
@@ -38,8 +38,7 @@ int main(void)
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
-		chld_exit = catch_o_the_day(cmd_path, my_argv, environ);
-		if (chld_exit) {}
+		catch_o_the_day(cmd_path, my_argv, environ);
 		free(cmd_path);
 		free(my_argv);
 	}
@@ -59,8 +58,7 @@ char **path_fishing(char **ocean)
 	/* confirm that there is an ocean to swim in */
 	if (!ocean)
 	{
-	/* path[0][0] = current working directory, need to figure out how to find */
-	}
+	} /* path[0][0] = current working directory, need to figure out how to find */
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean[fish]; ++fish)
 	{
