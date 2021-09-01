@@ -6,7 +6,7 @@
 int main(void)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker, /*chld_exit*/;
+	int sailing = 1, to_Davy_Jones_locker; /*chld_exit*/
 	size_t sz_input = 0;
 	ssize_t chk;
 
