@@ -1,8 +1,8 @@
 #include "c_shells_by_the_c_shore.h"
 /**
  * main - a POSIX complient shell
- * sh_ac: number of arguments fed the shell
- * sh_argv: arguments fed shell as an array of strings
+ * @sh_ac: number of arguments fed the shell
+ * @sh_argv: arguments fed shell as an array of strings
  * Return: the exit code given by the user when exit cmnd is given
  */
 int main(__attribute__((unused))int sh_ac, char **sh_argv)
