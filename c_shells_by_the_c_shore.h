@@ -26,7 +26,7 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
 
 
 /* vessels */
-int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage, int distance);
+int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league);
 int charter(char **vessel, char **course, char **ocean);
 char **trawler(char *school_of_fish, char net);
 

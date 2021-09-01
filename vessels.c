@@ -45,31 +45,31 @@ int charter(char **vessel, char **course, char **ocean)
  */
 
 /**
- * catch_o_the_day - starts a child process and runs the_big_one(cmd_path)
- * @the_big_one: catch(cmd_path) pulled from deep_C_fishing(my_argv[0])
- * @vessel: my_argv, the arguments of the user input
+ * big_catch - starts a child process and runs big_1(cmd_path)
+ * @big_1: catch(cmd_path) pulled from deep_C_fishing(my_argv[0])
+ * @ship: my_argv, the arguments of the user input
  * @ocean: the environ variable
- * @voyage: the name of the executing code
- * @distance: the number of lines read in the shell
+ * @trip: the name of the executing code
+ * @league: the number of lines read in the shell
  * Return: the exit code of the forked process
  */
-int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage, int distance)
+int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
 {
 	pid_t dingy;
 	int sunk;
 
 	/* run the execve with the argv[0] + the rest of the arguements */
-	if (the_big_one)
+	if (big_1)
 	{
 		/* launch dingy to run child process and wait for it to sink */
 		dingy = fork();
 		if (dingy < 0)
-			_puts(2, vessel[0], ": failed to start process\n");
+			_puts(2, ship[0], ": failed to start process\n");
 		else if (dingy == 0)
 		{
-			if (execve(the_big_one, vessel, ocean) == -1)
+			if (execve(big_1, ship, ocean) == -1)
 			{
-				_puts(2, vessel[0], ": Program failed to run.\n");
+				_puts(2, ship[0], ": Program failed to run.\n");
 				exit(-1);
 			}
 		}
@@ -77,7 +77,7 @@ int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage
 			(waitpid(dingy, &sunk, 0));
 	}
 	else
-		_puts(6, voyage, ": ", dive(distance), ": ", vessel[0], ": not found\n");
+		_puts(6, trip, ": ", dive(league), ": ", ship[0], ": not found\n");
 
 	return (sunk);
 }

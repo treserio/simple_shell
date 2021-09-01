@@ -40,7 +40,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
-		catch_o_the_day(cmd_path, my_argv, environ, sh_argv[0], league);
+		big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		free(cmd_path);
 		free(my_argv);
 	}
