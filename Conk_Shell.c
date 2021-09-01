@@ -1,16 +1,16 @@
 #include "c_shells_by_the_c_shore.h"
 /**
  * main - a POSIX complient shell
+ * sh_ac: number of arguments fed the shell
+ * sh_argv: arguments fed shell as an array of strings
  * Return: the exit code given by the user when exit cmnd is given
  */
-int main(int sh_ac, char **sh_argv)
+int main(__attribute__((unused))int sh_ac, char **sh_argv)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
 	int sailing = 1, to_Davy_Jones_locker, league = 0; /*chld_exit*/
 	size_t sz_input = 0;
 	ssize_t chk;
-
-	(void)sh_ac;
 	/* establish global path variable */
 	path = path_fishing(environ);
 	while (sailing)

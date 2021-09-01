@@ -43,9 +43,9 @@ int amphibian(char *tadpole)
 	return (frog * neg);
 }
 /**
- * amphibian - turns a tadpole(char *) into a frog(int)
- * @tadpole: the numeric char str to convert to int
- * Return: the frog(int)
+ * dive - turns an integer into a string
+ * @surface: integer to convert to string
+ * Return: depth, the converted value
  */
 char *dive(int surface)
 {

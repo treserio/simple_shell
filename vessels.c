@@ -49,6 +49,8 @@ int charter(char **vessel, char **course, char **ocean)
  * @the_big_one: catch(cmd_path) pulled from deep_C_fishing(my_argv[0])
  * @vessel: my_argv, the arguments of the user input
  * @ocean: the environ variable
+ * @voyage: the name of the executing code
+ * @distance: the number of lines read in the shell
  * Return: the exit code of the forked process
  */
 int catch_o_the_day(char *the_big_one, char **vessel, char **ocean, char *voyage, int distance)
