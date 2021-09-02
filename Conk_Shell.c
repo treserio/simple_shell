@@ -8,7 +8,7 @@
 int main(__attribute__((unused))int sh_ac, char **sh_argv)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker, league = 0, chld_exit, chk2;
+	int sailing = 1, to_Davy_Jones_locker, league = 0, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
 	/* establish global path variable */
