@@ -8,9 +8,9 @@
 int main(__attribute__((unused))int sh_ac, char **sh_argv)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker, league = 0, chld_exit;
+	int sailing = 1, to_Davy_Jones_locker = 0, league = 0, chld_exit = 0;
 	size_t sz_input = 0;
-	ssize_t chk;
+	ssize_t chk = 0;
 	/* establish global path variable */
 	path = path_fishing(environ);
 	while (sailing)
