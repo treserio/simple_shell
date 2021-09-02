@@ -8,7 +8,7 @@
 int main(__attribute__((unused))int sh_ac, char **sh_argv)
 {
 	char **path = NULL, **my_argv = NULL, *input = 0, *cmd_path = NULL;
-	int sailing = 1, to_Davy_Jones_locker, league = 0; /*chld_exit*/
+	int sailing = 1, to_Davy_Jones_locker, league = 0, chld_exit;
 	size_t sz_input = 0;
 	ssize_t chk;
 	/* establish global path variable */
@@ -27,7 +27,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
 		/* checking staces & blank entries */
-		if (!input[0] || input[0] == ' ')
+		if (!input[0])
 			continue;
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
@@ -40,12 +40,18 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
-		big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
+		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		free(cmd_path);
 		free(my_argv);
 	}
-	to_Davy_Jones_locker = release(path, my_argv, input);
-	exit(to_Davy_Jones_locker);
+	if (chk != -1)
+		to_Davy_Jones_locker = release(path, my_argv, input);
+	else
+	{
+		release(path, my_argv, input);
+		to_Davy_Jones_locker = chld_exit;
+	}
+	return (to_Davy_Jones_locker);
 }
 /**
  * path_fishing - make a path variable with wdir and values in environ var

@@ -69,7 +69,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
 		{
 			if (execve(big_1, ship, ocean) == -1)
 			{
-				_puts(2, ship[0], ": Program failed to run.\n");
+				_puts(6, trip, ": ", dive(league), ": ", ship[0], ": not found\n");
 				exit(-1);
 			}
 		}
@@ -79,6 +79,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
 	else
 		_puts(6, trip, ": ", dive(league), ": ", ship[0], ": not found\n");
 
+	sunk = WEXITSTATUS(sunk);
 	return (sunk);
 }
 /**
@@ -89,34 +90,42 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
  */
 char **trawler(char *school_of_fish, char net)
 {
-	int fish, st, cnt = 0;
+	int fish, st, cnt = 0, word = 0;
 	char **haul;
 	char *catch;
 
 	for (fish = 0; school_of_fish[fish]; ++fish)
 	{
-		if (school_of_fish[fish] == net)
+		if (!word && school_of_fish[fish] != ' ')
+			word = 1;
+		if (school_of_fish[fish] == net && word)
+		{
 			++cnt;
+			word = 0;
+		}
 	}
-
 	haul = malloc(sizeof(char *) * (cnt + 2));
 	if (!haul)
 		exit(-1);
-
-	for (fish = 0, st = 0, cnt = 0; school_of_fish[fish]; ++fish)
+	for (fish = 0, st = 0, cnt = 0, word = 0; school_of_fish[fish]; ++fish)
 	{
+		if (!word && school_of_fish[fish] == ' ')
+			++st;
+		if (!word && school_of_fish[fish] != ' ')
+			word = 1;
 		/* to consider " or ' add a check bit */
-		if (school_of_fish[fish] == net)
+		if (school_of_fish[fish] == net && word)
 		{
 			school_of_fish[fish] = '\0';
 			catch = (school_of_fish + st);
 			haul[cnt] = catch;
 			st = fish + 1;
 			++cnt;
+			word = 0;
 		}
 	}
 	/* if the last char is not a space */
-	if (st != fish)
+	if (st != fish && word)
 	{
 		catch = (school_of_fish + st);
 		haul[cnt] = catch;
