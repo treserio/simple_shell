@@ -50,14 +50,14 @@ int charter(char **vessel, char **course, char **ocean)
  * @ship: my_argv, the arguments of the user input
  * @ocean: the environ variable
  * @trip: the name of the executing code
- * @league: the number of lines read in the shell
+ * @fathoms: the number of lines read in the shell
  * Return: the exit code of the forked process
  */
-int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
+int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 {
 	pid_t dingy;
 	int sunk;
-
+	char *submurged;
 	/* run the execve with the argv[0] + the rest of the arguements */
 	if (big_1)
 	{
@@ -69,7 +69,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
 		{
 			if (execve(big_1, ship, ocean) == -1)
 			{
-				_puts(6, trip, ": ", dive(league), ": ", ship[0], ": not found\n");
+				_puts(6, trip, ": ", dive(fathoms), ": ", ship[0], ": not found\n");
 				exit(-1);
 			}
 		}
@@ -77,8 +77,11 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league)
 			(waitpid(dingy, &sunk, 0));
 	}
 	else
-		_puts(6, trip, ": ", dive(league), ": ", ship[0], ": not found\n");
-
+	{
+		submurged = dive(fathoms);
+		_puts(6, trip, ": ", submurged, ": ", ship[0], ": not found\n");
+		free(submurged);
+	}
 	sunk = WEXITSTATUS(sunk);
 	return (sunk);
 }

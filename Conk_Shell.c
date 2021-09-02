@@ -41,8 +41,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		/* run the command */
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
-		free(cmd_path);
-		free(my_argv);
+		free(cmd_path), free(my_argv);
 	}
 	if (chk != -1)
 		to_Davy_Jones_locker = release(path, my_argv, input);
