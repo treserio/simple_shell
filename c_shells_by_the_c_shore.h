@@ -24,7 +24,6 @@ int fish_scales(char *red_fish, char *blue_fish);
 void _puts(const unsigned int n, ...);
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
 
-
 /* vessels */
 int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league);
 int charter(char **vessel, char **course, char **ocean);

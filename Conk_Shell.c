@@ -63,7 +63,7 @@ char **path_fishing(char **ocean)
 	{
 	} /*path[0][0] = current working directory, need to figure out how to find*/
 	/* add pwd to 0 index and start at fish +1 */
-	for (fish = 0; ocean[fish]; ++fish)
+	for (fish = 0; ocean && ocean[fish]; ++fish)
 	{
 		/* search for = in string */
 		for (part = 0; ocean[fish][part] && ocean[fish][part] != '='; ++part)
@@ -104,9 +104,8 @@ char **path_fishing(char **ocean)
 void depth_finder(char **ocean)
 {
 	int fish;
-	/* if !ocean put env variable empty or missing? */
 
-	for (fish = 0; ocean[fish]; ++fish)
+	for (fish = 0; ocean && ocean[fish]; ++fish)
 	{
 		_puts(1, ocean[fish]);
 		if (ocean[fish + 1])
@@ -133,7 +132,7 @@ char *deep_C_fishing(char *hook, char **sea)
 	}
 	else
 	{
-		for (fish = 0; sea[fish]; ++fish)
+		for (fish = 0; sea && sea[fish]; ++fish)
 		{
 			catch = str_catfish(sea[fish], hook, '/');
 			if (!access(catch, X_OK))
@@ -164,8 +163,11 @@ int release(char **pathfish, char **my_argvfish, char *inputfish)
 		free(my_argvfish);
 
 	/* only free path[0] since the rest are part of environ */
-	free(pathfish[0]);
-	free(pathfish);
+	if (pathfish)
+	{
+		free(pathfish[0]);
+		free(pathfish);
+	}
 
 	return (to_Davy_Jones_locker);
 }

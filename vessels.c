@@ -3,7 +3,6 @@
  * charter - checks if one of our builtin functions can run
  * @vessel: my_argv, all the arguments of the user input
  * @course: the path variable
- * @ocean: the environ variable
  * Return: 0=end shell(break), 1=continue, or nothing
  */
 int charter(char **vessel, char **course, char **ocean)
@@ -26,7 +25,7 @@ int charter(char **vessel, char **course, char **ocean)
 	}
 	if (!fish_scales(vessel[0], "path"))
 	{
-		for (leagues = 1; course[leagues]; ++leagues)
+		for (leagues = 1; course && course[leagues]; ++leagues)
 		{
 			_puts(1, course[leagues]);
 			if (course[leagues + 1])
@@ -72,7 +71,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 			_puts(2, ship[0], ": failed to start process\n");
 		else if (dingy == 0)
 		{
-			if (execve(big_1, ship, ocean) == -1)
+			if (ocean && execve(big_1, ship, ocean) == -1)
 			{
 				_puts(6, trip, ": ", dive(fathoms), ": ", ship[0], ": not found\n");
 				exit(-1);
