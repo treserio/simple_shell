@@ -10,7 +10,10 @@ int charter(char **vessel, char **course, char **ocean)
 {
 	int leagues;
 	if (!vessel[0])
+	{
+		free(vessel);
 		return (1);
+	}
 	if (!fish_scales(vessel[0], "exit"))
 		return (0);
 	if (!fish_scales(vessel[0], "env"))
