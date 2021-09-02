@@ -26,7 +26,7 @@ int charter(char **vessel, char **course, char **ocean)
 	}
 	if (!fish_scales(vessel[0], "path"))
 	{
-		for (leagues = 0; course[leagues]; ++leagues)
+		for (leagues = 1; course[leagues]; ++leagues)
 		{
 			_puts(1, course[leagues]);
 			if (course[leagues + 1])
