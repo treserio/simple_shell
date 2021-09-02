@@ -59,7 +59,7 @@ char *dive(int surface)
 	}
 	for (distance = 1; (surface / distance) >= 10; distance *= 10)
 	;
-	depth = malloc(distance);
+	depth = malloc(distance + 1);
 	if (neg)
 	{
 		depth[fathom] = '-';
@@ -68,6 +68,7 @@ char *dive(int surface)
 	for (; distance >= 1; surface %= distance, distance /= 10, ++fathom)
 		depth[fathom] = (surface / distance) + '0';
 
+	depth[fathom] = '\0';
 	return (depth);
 }
 /**
@@ -123,9 +124,14 @@ void _puts(const unsigned int n, ...)
 	{
 		str = va_arg(str_array, char *);
 
-		while (str[size])
-			++size;
+		if(str[size])
+		{
+			while (str[size])
+				++size;
+		}
 
 		write(1, str, size);
 	}
+
+	va_end(str_array);
 }

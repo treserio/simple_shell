@@ -61,7 +61,7 @@ int charter(char **vessel, char **course, char **ocean)
 int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 {
 	pid_t dingy;
-	int sunk;
+	int sunk = 0;
 	char *submurged;
 	/* run the execve with the argv[0] + the rest of the arguements */
 	if (big_1)
@@ -87,7 +87,8 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 		_puts(6, trip, ": ", submurged, ": ", ship[0], ": not found\n");
 		free(submurged);
 	}
-	sunk = WEXITSTATUS(sunk);
+	if (WIFEXITED(sunk))
+		sunk = WEXITSTATUS(sunk);
 	return (sunk);
 }
 /**
