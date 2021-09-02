@@ -26,9 +26,6 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		++league;
 		/* rmv newline from input */
 		input[chk - 1] = '\0';
-		/* checking staces & blank entries */
-		if (!input[0])
-			continue;
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* check for builtins and takes appropriate action */
@@ -39,7 +36,6 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 			continue;
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
-		/* run the command */
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		free(cmd_path), free(my_argv);
 	}

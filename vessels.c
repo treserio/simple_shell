@@ -9,6 +9,7 @@
 int charter(char **vessel, char **course, char **ocean)
 {
 	int leagues;
+
 	if (!vessel[0])
 	{
 		free(vessel);
@@ -120,25 +121,21 @@ char **trawler(char *school_of_fish, char net)
 			++st;
 		if (!word && school_of_fish[fish] != ' ')
 			word = 1;
-		/* to consider " or ' add a check bit */
 		if (school_of_fish[fish] == net && word)
 		{
 			school_of_fish[fish] = '\0';
 			catch = (school_of_fish + st);
 			haul[cnt] = catch;
 			st = fish + 1;
-			++cnt;
-			word = 0;
+			++cnt, word = 0;
 		}
 	}
-	/* if the last char is not a space */
 	if (st != fish && word)
 	{
 		catch = (school_of_fish + st);
 		haul[cnt] = catch;
 		++cnt;
 	}
-	/* set the final value as NULL */
 	haul[cnt] = NULL;
 	return (haul);
 }
