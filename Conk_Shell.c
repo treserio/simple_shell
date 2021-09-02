@@ -39,7 +39,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		free(cmd_path), free(my_argv);
 	}
-	if (chk != -1)
+	if (chk == 0 && my_argv[1])
 		to_Davy_Jones_locker = release(path, my_argv, input);
 	else
 	{
