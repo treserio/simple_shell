@@ -2,6 +2,7 @@
 /**
  * charter - checks if one of our builtin functions can run
  * @vessel: my_argv, all the arguments of the user input
+ * @ocean: the env variable
  * @course: the path variable
  * Return: 0=end shell(break), 1=continue, or nothing
  */

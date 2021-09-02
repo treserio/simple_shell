@@ -124,7 +124,7 @@ void _puts(const unsigned int n, ...)
 	{
 		str = va_arg(str_array, char *);
 
-		if(str[size])
+		if (str[size])
 		{
 			while (str[size])
 				++size;
