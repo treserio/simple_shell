@@ -14,9 +14,9 @@
 extern char **environ;
 
 /* Conk_Shell */
+char *deep_C_fishing(char *hook, char **sea);
 void depth_finder(char **ocean);
 char **path_fishing(char **ocean, char *old_port);
-char *deep_C_fishing(char *hook, char **sea);
 int release(char **pathfish, char **my_argvfish, char *inputfish, int end);
 
 /* string_of_pearls */
@@ -28,8 +28,9 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
 
 /* vessels */
 int big_catch(char *big_1, char **ship, char **ocean, char *trip, int league);
-int charter(char **vessel, char **course, char **ocean, char *old_port);
-char **trawler(char *school_of_fish, char net);
 char **change_port(char *port, char **compass, char *old_port);
+int charter(char **vessel, char **course, char **ocean, char *old_port);
+int fish_spotter(char *school_of_fish, char net);
+char **trawler(char *school_of_fish, char net);
 
 #endif

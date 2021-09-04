@@ -25,11 +25,8 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 			break;
 		}
 		++league;
-		/* rmv newline from input */
 		input[chk - 1] = '\0';
-		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
-		/* check for builtins and takes appropriate action */
 		chk = charter(my_argv, path, environ, old_port);
 		if (chk == 0)
 			break;
@@ -52,8 +49,56 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 	return (to_Davy_Jones_locker);
 }
 /**
+ * deep_C_fishing - look through path strings for the input cmnd to run
+ * @hook: the argv[0] value, or cmnd expected to run
+ * @sea: the array of strings stored in path
+ * Return: full path of accessable cmnd, else NULL if missing or unable to exe
+ */
+char *deep_C_fishing(char *hook, char **sea)
+{
+	int fish;
+	char *catch = NULL;
+
+	/* if the hook[0] is a . or a / return it as the path */
+	if (hook[0] == '/' || hook[0] == '.')
+	{
+		catch = str_catfish(hook, "", 0);
+		if (access(catch, X_OK))
+			catch = NULL;
+	}
+	else
+	{
+		for (fish = 0; sea && sea[fish]; ++fish)
+		{
+			catch = str_catfish(sea[fish], hook, '/');
+			if (!access(catch, X_OK))
+				break;
+			free(catch);
+			catch = NULL;
+		}
+	}
+	return (catch);
+}
+/**
+ * depth_finder - print the environment info
+ * @ocean: the environ variable information
+ * Return: void
+ */
+void depth_finder(char **ocean)
+{
+	int fish;
+
+	for (fish = 0; ocean && ocean[fish]; ++fish)
+	{
+		_puts(1, ocean[fish]);
+		if (ocean[fish + 1])
+			_puts(1, "\n");
+	}
+}
+/**
  * path_fishing - make a path variable with wdir and values in environ var
  * @ocean: the environ variable information to fish
+ * @dock: buffer to store cwd
  * Return: an array of Path strings
  */
 char **path_fishing(char **ocean, char *dock)
@@ -93,53 +138,6 @@ char **path_fishing(char **ocean, char *dock)
 		}
 	}
 	return (NULL);
-}
-/**
- * depth_finder - print the environment info
- * @ocean: the environ variable information
- * Return: void
- */
-void depth_finder(char **ocean)
-{
-	int fish;
-
-	for (fish = 0; ocean && ocean[fish]; ++fish)
-	{
-		_puts(1, ocean[fish]);
-		if (ocean[fish + 1])
-			_puts(1, "\n");
-	}
-}
-/**
- * deep_C_fishing - look through path strings for the input cmnd to run
- * @hook: the argv[0] value, or cmnd expected to run
- * @sea: the array of strings stored in path
- * Return: full path of accessable cmnd, else NULL if missing or unable to exe
- */
-char *deep_C_fishing(char *hook, char **sea)
-{
-	int fish;
-	char *catch = NULL;
-
-	/* if the hook[0] is a . or a / return it as the path */
-	if (hook[0] == '/' || hook[0] == '.')
-	{
-		catch = str_catfish(hook, "", 0);
-		if (access(catch, X_OK))
-			catch = NULL;
-	}
-	else
-	{
-		for (fish = 0; sea && sea[fish]; ++fish)
-		{
-			catch = str_catfish(sea[fish], hook, '/');
-			if (!access(catch, X_OK))
-				break;
-			free(catch);
-			catch = NULL;
-		}
-	}
-	return (catch);
 }
 /**
  * release - free the memory we've caught

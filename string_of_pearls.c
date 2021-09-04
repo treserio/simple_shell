@@ -1,23 +1,5 @@
 #include "c_shells_by_the_c_shore.h"
 /**
- * fish_scales - weigh fish and return difference, or 0 if they're =
- * @red_fish: first string to compare
- * @blue_fish: second string to compare
- * Return: linguistic difference in the deviant char, or zero if match
- */
-int fish_scales(char *red_fish, char *blue_fish)
-{
-	int part, chk = 0;
-
-	for (part = 0; red_fish[part] != '\0' && blue_fish[part] != '\0'; part++)
-	{
-		if (red_fish[part] != blue_fish[part])
-			break;
-	}
-	chk = red_fish[part] - blue_fish[part];
-	return (chk);
-}
-/**
  * amphibian - turns a tadpole(char *) into a frog(int)
  * @tadpole: the numeric char str to convert to int
  * Return: the frog(int)
@@ -72,6 +54,52 @@ char *dive(int surface)
 	return (depth);
 }
 /**
+ * fish_scales - weigh fish and return difference, or 0 if they're =
+ * @red_fish: first string to compare
+ * @blue_fish: second string to compare
+ * Return: linguistic difference in the deviant char, or zero if match
+ */
+int fish_scales(char *red_fish, char *blue_fish)
+{
+	int part, chk = 0;
+
+	for (part = 0; red_fish[part] != '\0' && blue_fish[part] != '\0'; part++)
+	{
+		if (red_fish[part] != blue_fish[part])
+			break;
+	}
+	chk = red_fish[part] - blue_fish[part];
+	return (chk);
+}
+/**
+ * _puts - prints out the str in one write call
+ * @n: the number of (char *) given to _puts to print
+ * Return: void
+ */
+void _puts(const unsigned int n, ...)
+{
+	unsigned int size, i;
+	char *str;
+	va_list str_array;
+
+	va_start(str_array, n);
+
+	for (i = 0, size = 0; i < n; ++i, size = 0)
+	{
+		str = va_arg(str_array, char *);
+
+		if (str[size])
+		{
+			while (str[size])
+				++size;
+		}
+
+		write(1, str, size);
+	}
+
+	va_end(str_array);
+}
+/**
  * str_catfish - concatonates 2 strings with a potential insert
  * @one_fish: first string to use in creating catfish
  * @two_fish: second string to use in creating catfish
@@ -106,32 +134,4 @@ char *str_catfish(char *one_fish, char *two_fish, char jelly_fish)
 	/* set null byte for eos */
 	catfish[size] = '\0';
 	return (catfish);
-}
-/**
- * _puts - prints out the str in one write call
- * @n: the number of (char *) given to _puts to print
- * Return: void
- */
-void _puts(const unsigned int n, ...)
-{
-	unsigned int size, i;
-	char *str;
-	va_list str_array;
-
-	va_start(str_array, n);
-
-	for (i = 0, size = 0; i < n; ++i, size = 0)
-	{
-		str = va_arg(str_array, char *);
-
-		if (str[size])
-		{
-			while (str[size])
-				++size;
-		}
-
-		write(1, str, size);
-	}
-
-	va_end(str_array);
 }
