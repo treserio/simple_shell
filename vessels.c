@@ -70,7 +70,8 @@ char **change_port(char *port, char **compass, char *old_port)
 	}
 	/* make use of env[HOME] to use when given ~ first char */
 	/* use stat structure of new dir to check if it's a symbolic link */
-	/* find name(char*) of dir in (DIR *), or use getcwd to malloc new (char*)
+	/*
+	 * find name(char*) of dir in (DIR *), or use getcwd to malloc new (char*)
 	 * for old_port
 	 */
 	return (NULL);
