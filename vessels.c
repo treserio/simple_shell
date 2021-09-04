@@ -55,12 +55,12 @@ char **change_port(char *port, char **compass, char *old_port)
 	if (compass[1][0] != '-' && compass[1][0] != '~')
 	{
 		harbor = opendir(compass[1]);
-		if(harbor)
+		if (harbor)
 		/*if (errno != ENOENT && errno != ENOTDIR && errno != EACCES)*/
 		/* handle each check with unique error out */
 		{
 			closedir(harbor);
-			old_port = getcwd(old_port, 600);			
+			old_port = getcwd(old_port, 600);
 			chdir(compass[1]);
 			port = getcwd(port, 600);
 		}
@@ -70,8 +70,9 @@ char **change_port(char *port, char **compass, char *old_port)
 	}
 	/* make use of env[HOME] to use when given ~ first char */
 	/* use stat structure of new dir to check if it's a symbolic link */
-	/* find name(char *) of directory in (DIR *), or use getcwd to malloc new char *
-	for old_port */
+	/* find name(char*) of dir in (DIR *), or use getcwd to malloc new (char*)
+	 * for old_port
+	 */
 	return (NULL);
 }
 /**
@@ -115,7 +116,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 	if (!fish_scales(vessel[0], "cd"))
 	{
 		change_port(course[0], vessel, old_port);
-		release(NULL, vessel, NULL, 0);		
+		release(NULL, vessel, NULL, 0);
 		return (1);
 	}
 	return (2);
