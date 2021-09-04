@@ -13,7 +13,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 
 	if (!vessel[0])
 	{
-		free(vessel);
+		release(NULL, vessel, NULL, 0);
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "exit"))
@@ -21,7 +21,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 	if (!fish_scales(vessel[0], "env"))
 	{
 		depth_finder(ocean);
-		free(vessel);
+		release(NULL, vessel, NULL, 0);
 		_puts(1, "\n");
 		return (1);
 	}
@@ -33,13 +33,14 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 			if (course[leagues + 1])
 				_puts(1, ":");
 		}
-		free(vessel);
+		release(NULL, vessel, NULL, 0);
 		_puts(1, "\n");
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "cd"))
 	{
 		change_port(course[0], vessel, old_port);
+		release(NULL, vessel, NULL, 0);		
 		return (1);
 	}
 	return (2);
@@ -100,9 +101,8 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
  */
 char **trawler(char *school_of_fish, char net)
 {
-	int fish, st, cnt = 0, word = 0;
+	int fish, st, catch = 0, word = 0, i;
 	char **haul;
-	char *catch;
 
 	for (fish = 0; school_of_fish[fish]; ++fish)
 	{
@@ -110,14 +110,12 @@ char **trawler(char *school_of_fish, char net)
 			word = 1;
 		if (school_of_fish[fish] == net && word)
 		{
-			++cnt;
+			++catch;
 			word = 0;
 		}
 	}
-	haul = malloc(sizeof(char *) * (cnt + 2));
-	if (!haul)
-		exit(-1);
-	for (fish = 0, st = 0, cnt = 0, word = 0; school_of_fish[fish]; ++fish)
+	haul = malloc(sizeof(char *) * (catch + 2));
+	for (fish = 0, st = 0, catch = 0, word = 0; school_of_fish[fish]; ++fish)
 	{
 		if (!word && school_of_fish[fish] == ' ')
 			++st;
@@ -126,19 +124,29 @@ char **trawler(char *school_of_fish, char net)
 		if (school_of_fish[fish] == net && word)
 		{
 			school_of_fish[fish] = '\0';
-			catch = (school_of_fish + st);
-			haul[cnt] = catch;
+			haul[catch] = malloc(fish + 1);
+			for (i = 0; *(school_of_fish + st + i) ; ++i)
+				haul[catch][i] = *(school_of_fish + st + i);
+			haul[catch][i] = '\0';
 			st = fish + 1;
-			++cnt, word = 0;
+			++catch, word = 0;
 		}
 	}
 	if (st != fish && word)
 	{
-		catch = (school_of_fish + st);
-		haul[cnt] = catch;
-		++cnt;
+		haul[catch] = malloc(fish + 1);
+		for (i = 0; *(school_of_fish + st + i); ++i)
+			haul[catch][i] = *(school_of_fish + st + i);
+		haul[catch][i] = '\0';
+		++catch;
 	}
-	haul[cnt] = NULL;
+	haul[catch] = NULL;
+	if (catch == 0)
+	{
+		haul[1] = NULL;
+		printf("tr:%s|\n", haul[0]);
+		printf("tr:%s|\n", haul[1]);
+	}
 	return (haul);
 }
 /**

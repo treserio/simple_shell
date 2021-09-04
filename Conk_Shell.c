@@ -38,13 +38,14 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		/* confirm the argv[0] is a system function before execve */
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
-		free(cmd_path), free(my_argv);
+		if (my_argv)
+			free(cmd_path), release(NULL, my_argv, NULL, 0);
 	}
 	if (chk == 0 && my_argv[1])
-		to_Davy_Jones_locker = release(path, my_argv, input);
+		to_Davy_Jones_locker = release(path, my_argv, input, 1);
 	else
 	{
-		release(path, my_argv, input);
+		release(path, my_argv, input, 1);
 		to_Davy_Jones_locker = chld_exit;
 	}
 	free(old_port);
@@ -59,7 +60,6 @@ char **path_fishing(char **ocean, char *dock)
 {
 	int fish, part, st, pwd = 0;
 	char *net, *catch, **haul;
-
 	/* pull our cwd, up to 600 chars */
 	getcwd(dock, 600);
 	if (dock)
@@ -77,27 +77,15 @@ char **path_fishing(char **ocean, char *dock)
 			for (st = 0; st < part; ++st)
 				net[st] = ocean[fish][st];
 			net[st] = '\0';
-			/* compare result with PWD to locate working directory
-			if (!fish_scales(net, "PWD") && !pwd)
-			{
-				catch = (ocean[fish] + (part + 1));
-				pwd = 1;
-				fish = 0;
-			} */
 			/* compare result with "PATH" */
 			if (!fish_scales(net, "PATH") && pwd)
 			{
-				catch = str_catfish(net, (ocean[fish] + (part + 1)), ':');
-				/*printf("addr:%p| ctch:%s|\n", catch, catch);
-				printf("addr:%p| port:%s|\n", port, port);*/
-				printf("catch:%s|%p\n", catch, catch);
-				haul = trawler(catch, ':');
-				printf("catch:%s|%p\n", catch, catch);
 				free(net);
+				catch = str_catfish("temp", (ocean[fish] + (part + 1)), ':');
+				haul = trawler(catch, ':');
 				free(catch);
+				free(haul[0]);
 				haul[0] = dock;
-				for (pwd = 0; haul[pwd]; ++pwd)
-					printf("H%d:%s|%p\n", pwd, haul[pwd], haul[pwd]);
 				/* returned parsed path variables as array of char pntrs */
 				return (haul);
 			}
@@ -158,27 +146,35 @@ char *deep_C_fishing(char *hook, char **sea)
  * @pathfish: the path variable and path[0], the rest belong to environ
  * @my_argvfish: the location for our my_argv variable
  * @inputfish: the input from getline
+ * @end: identify if exit was called
  * Return: the value to use as the exit code
  */
-int release(char **pathfish, char **my_argvfish, char *inputfish)
+int release(char **pathfish, char **my_argvfish, char *inputfish, int end)
 {
-	int to_Davy_Jones_locker = 0;
+	int to_Davy_Jones_locker = 0, caught;
 
 	/* for exit code convert string to int */
-	if (my_argvfish && my_argvfish[1])
-		to_Davy_Jones_locker = amphibian(my_argvfish[1]);
+	if (end)
+		if (my_argvfish && my_argvfish[1])
+			to_Davy_Jones_locker = amphibian(my_argvfish[1]);
 
-	free(inputfish);
-	if (my_argvfish)
-		free(my_argvfish);
-
-	/* only free path[0] since the rest are part of environ */
 	if (pathfish)
 	{
-		free(pathfish[0]);
-		free(pathfish[1]);
+		for (caught = 0; pathfish && pathfish[caught]; ++caught)
+			free(pathfish[caught]);
 		free(pathfish);
 	}
+	if (my_argvfish)
+	{
+		for (caught = 0; my_argvfish && my_argvfish[caught]; ++caught)
+		{
+			free(my_argvfish[caught]);
+		}
+		free(my_argvfish[caught]);
+		free(my_argvfish);
+	}
+	if (inputfish)
+		free(inputfish);
 
 	return (to_Davy_Jones_locker);
 }

@@ -17,7 +17,7 @@ extern char **environ;
 void depth_finder(char **ocean);
 char **path_fishing(char **ocean, char *old_port);
 char *deep_C_fishing(char *hook, char **sea);
-int release(char **pathfish, char **my_argvfish, char *inputfish);
+int release(char **pathfish, char **my_argvfish, char *inputfish, int end);
 
 /* string_of_pearls */
 int amphibian(char *tadpole);
