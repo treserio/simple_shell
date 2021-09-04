@@ -11,8 +11,9 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 	int sailing = 1, to_Davy_Jones_locker = 0, league = 0, chld_exit = 0;
 	size_t sz_input = 0;
 	ssize_t chk = 0;
+	char *old_port = malloc(600), *dock = malloc(600);
 	/* establish global path variable */
-	path = path_fishing(environ);
+	path = path_fishing(environ, dock);
 	while (sailing)
 	{
 		if (isatty(STDIN_FILENO))
@@ -29,7 +30,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		/* grab array of arguments */
 		my_argv = trawler(input, ' ');
 		/* check for builtins and takes appropriate action */
-		chk = charter(my_argv, path, environ);
+		chk = charter(my_argv, path, environ, old_port);
 		if (chk == 0)
 			break;
 		else if (chk == 1)
@@ -46,6 +47,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		release(path, my_argv, input);
 		to_Davy_Jones_locker = chld_exit;
 	}
+	free(old_port);
 	return (to_Davy_Jones_locker);
 }
 /**
@@ -53,15 +55,15 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
  * @ocean: the environ variable information to fish
  * Return: an array of Path strings
  */
-char **path_fishing(char **ocean)
+char **path_fishing(char **ocean, char *dock)
 {
 	int fish, part, st, pwd = 0;
 	char *net, *catch, **haul;
 
-	/* confirm that there is an ocean to swim in */
-	if (!ocean)
-	{
-	} /*path[0][0] = current working directory, need to figure out how to find*/
+	/* pull our cwd, up to 600 chars */
+	getcwd(dock, 600);
+	if (dock)
+		pwd = 1;
 	/* add pwd to 0 index and start at fish +1 */
 	for (fish = 0; ocean && ocean[fish]; ++fish)
 	{
@@ -75,19 +77,27 @@ char **path_fishing(char **ocean)
 			for (st = 0; st < part; ++st)
 				net[st] = ocean[fish][st];
 			net[st] = '\0';
-			/* compare result with PWD to locate working directory */
+			/* compare result with PWD to locate working directory
 			if (!fish_scales(net, "PWD") && !pwd)
 			{
 				catch = (ocean[fish] + (part + 1));
 				pwd = 1;
 				fish = 0;
-			}
+			} */
 			/* compare result with "PATH" */
 			if (!fish_scales(net, "PATH") && pwd)
 			{
-				free(net);
-				catch = str_catfish(catch, (ocean[fish] + (part + 1)), ':');
+				catch = str_catfish(net, (ocean[fish] + (part + 1)), ':');
+				/*printf("addr:%p| ctch:%s|\n", catch, catch);
+				printf("addr:%p| port:%s|\n", port, port);*/
+				printf("catch:%s|%p\n", catch, catch);
 				haul = trawler(catch, ':');
+				printf("catch:%s|%p\n", catch, catch);
+				free(net);
+				free(catch);
+				haul[0] = dock;
+				for (pwd = 0; haul[pwd]; ++pwd)
+					printf("H%d:%s|%p\n", pwd, haul[pwd], haul[pwd]);
 				/* returned parsed path variables as array of char pntrs */
 				return (haul);
 			}
@@ -166,6 +176,7 @@ int release(char **pathfish, char **my_argvfish, char *inputfish)
 	if (pathfish)
 	{
 		free(pathfish[0]);
+		free(pathfish[1]);
 		free(pathfish);
 	}
 

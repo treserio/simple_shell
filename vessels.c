@@ -4,9 +4,10 @@
  * @vessel: my_argv, all the arguments of the user input
  * @ocean: the env variable
  * @course: the path variable
+ * @old_port: previous working directory
  * Return: 0=end shell(break), 1=continue, or nothing
  */
-int charter(char **vessel, char **course, char **ocean)
+int charter(char **vessel, char **course, char **ocean, char *old_port)
 {
 	int leagues;
 
@@ -38,7 +39,7 @@ int charter(char **vessel, char **course, char **ocean)
 	}
 	if (!fish_scales(vessel[0], "cd"))
 	{
-		/* call cd function here */
+		change_port(course[0], vessel, old_port);
 		return (1);
 	}
 	return (2);
@@ -139,4 +140,38 @@ char **trawler(char *school_of_fish, char net)
 	}
 	haul[cnt] = NULL;
 	return (haul);
+}
+/**
+ * trawler - splits school_of_fish(char *) on net(char) and adds to array
+ * @port: PATH
+ * @compass: my_argv
+ * @net: char to use as delimiter
+ * Return: array of parsed strings
+ */
+char **change_port(char *port, char **compass, char *old_port)
+{
+	DIR *harbor;
+	/* check if first char is '-' */
+	if (compass[1][0] != '-' && compass[1][0] != '~')
+	{
+		harbor = opendir(compass[1]);
+		if(harbor)
+		/*if (errno != ENOENT && errno != ENOTDIR && errno != EACCES)*/
+		/* handle each check with unique error out */
+		{
+			closedir(harbor);
+			old_port = getcwd(old_port, 600);			
+			chdir(compass[1]);
+			port = getcwd(port, 600);
+		}
+		else
+		{
+			printf("wrong dir\n");
+		}
+	}
+	/* make use of env[HOME] to use when given ~ first char */
+	/* use stat structure of new dir to check if it's a symbolic link */
+	/* find name(char *) of directory in (DIR *), or use getcwd to malloc new char *
+	for old_port */
+	return (NULL);
 }
