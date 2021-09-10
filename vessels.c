@@ -19,13 +19,13 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 		/* launch dingy to run child process and wait for it to sink */
 		dingy = fork();
 		if (dingy < 0)
-			_puts(1, 2, ship[0], ": failed to start process\n");
+			_puts(2, 2, ship[0], ": failed to start process\n");
 		else if (dingy == 0)
 		{
 			if (execve(big_1, ship, ocean) == -1)
 			{
 				depth = dive(fathoms);
-				_puts(1, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+				_puts(2, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
 				free(depth);
 				exit(-1);
 			}
@@ -36,7 +36,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 	else
 	{
 		depth = dive(fathoms);
-		_puts(1, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+		_puts(2, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
 		free(depth);
 	}
 	if (WIFEXITED(sunk))
