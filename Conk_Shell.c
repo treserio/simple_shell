@@ -36,16 +36,15 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		if (my_argv)
-			free(cmd_path), release(NULL, my_argv, NULL, 0);
+			free(cmd_path), release(NULL, my_argv, NULL, NULL, NULL, 0);
 	}
 	if (chk == 0 && my_argv[1])
-		to_Davy_Jones_locker = release(path, my_argv, input, 1);
+	to_Davy_Jones_locker = release(path, my_argv, input, old_port, dock, 1);
 	else
 	{
-		release(path, my_argv, input, 1);
+		release(path, my_argv, input, old_port, dock, 1);
 		to_Davy_Jones_locker = chld_exit;
 	}
-	free(old_port);
 	return (to_Davy_Jones_locker);
 }
 /**
@@ -141,38 +140,44 @@ char **path_fishing(char **ocean, char *dock)
 }
 /**
  * release - free the memory we've caught
- * @pathfish: the path variable and path[0], the rest belong to environ
- * @my_argvfish: the location for our my_argv variable
- * @inputfish: the input from getline
- * @end: identify if exit was called
+ * @p_f: path_fish to release, release p_f and all indexes therein
+ * @arg_f: my_argv_fish to release, release p_f and all indexes therein
+ * @in_f: input_fish from getline to release
+ * @op_f: old_port_fish to release
+ * @d_f: dock_fish(p_f[0]) to release if p_f = NULL
+ * @x: exit, identify if exit was called and set return value if provided
  * Return: the value to use as the exit code
  */
-int release(char **pathfish, char **my_argvfish, char *inputfish, int end)
+int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f, int x)
 {
 	int to_Davy_Jones_locker = 0, caught;
 
 	/* for exit code convert string to int */
-	if (end)
-		if (my_argvfish && my_argvfish[1])
-			to_Davy_Jones_locker = amphibian(my_argvfish[1]);
+	if (x)
+		if (arg_f && arg_f[1])
+			to_Davy_Jones_locker = amphibian(arg_f[1]);
 
-	if (pathfish)
+	for (caught = 0; p_f && p_f[caught]; ++caught)
+		free(p_f[caught]);
+	free(p_f);
+
+	if (arg_f)
 	{
-		for (caught = 0; pathfish && pathfish[caught]; ++caught)
-			free(pathfish[caught]);
-		free(pathfish);
-	}
-	if (my_argvfish)
-	{
-		for (caught = 0; my_argvfish && my_argvfish[caught]; ++caught)
+		for (caught = 0; arg_f && arg_f[caught]; ++caught)
 		{
-			free(my_argvfish[caught]);
+			free(arg_f[caught]);
 		}
-		free(my_argvfish[caught]);
-		free(my_argvfish);
+		free(arg_f[caught]);
+		free(arg_f);
 	}
-	if (inputfish)
-		free(inputfish);
+	if (in_f)
+		free(in_f);
+
+	if (op_f)
+		free(op_f);
+
+	if (d_f)
+		free(d_f);
 
 	return (to_Davy_Jones_locker);
 }

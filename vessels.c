@@ -12,9 +12,9 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 {
 	pid_t dingy;
 	int sunk = 0;
-	char *submurged;
+	char *depth;
 	/* run the execve with the argv[0] + the rest of the arguements */
-	if (big_1)
+	if (big_1 && ocean)
 	{
 		/* launch dingy to run child process and wait for it to sink */
 		dingy = fork();
@@ -22,9 +22,11 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 			_puts(2, ship[0], ": failed to start process\n");
 		else if (dingy == 0)
 		{
-			if (ocean && execve(big_1, ship, ocean) == -1)
+			if (execve(big_1, ship, ocean) == -1)
 			{
-				_puts(6, trip, ": ", dive(fathoms), ": ", ship[0], ": not found\n");
+				depth = dive(fathoms);
+				_puts(6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+				free(depth);
 				exit(-1);
 			}
 		}
@@ -33,9 +35,9 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 	}
 	else
 	{
-		submurged = dive(fathoms);
-		_puts(6, trip, ": ", submurged, ": ", ship[0], ": not found\n");
-		free(submurged);
+		depth = dive(fathoms);
+		_puts(6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+		free(depth);
 	}
 	if (WIFEXITED(sunk))
 		sunk = WEXITSTATUS(sunk);
@@ -79,8 +81,8 @@ char **change_port(char *port, char **compass, char *old_port)
 /**
  * charter - checks if one of our builtin functions can run
  * @vessel: my_argv, all the arguments of the user input
- * @ocean: the env variable
  * @course: the path variable
+ * @ocean: the env variable
  * @old_port: previous working directory
  * Return: 0=end shell(break), 1=continue, or nothing
  */
@@ -90,7 +92,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 
 	if (!vessel[0])
 	{
-		release(NULL, vessel, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL, 0);
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "exit"))
@@ -98,7 +100,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 	if (!fish_scales(vessel[0], "env"))
 	{
 		depth_finder(ocean);
-		release(NULL, vessel, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL, 0);
 		_puts(1, "\n");
 		return (1);
 	}
@@ -110,14 +112,14 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 			if (course[leagues + 1])
 				_puts(1, ":");
 		}
-		release(NULL, vessel, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL, 0);
 		_puts(1, "\n");
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "cd"))
 	{
 		change_port(course[0], vessel, old_port);
-		release(NULL, vessel, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL, 0);
 		return (1);
 	}
 	return (2);
