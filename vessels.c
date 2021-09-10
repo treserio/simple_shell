@@ -38,6 +38,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 		depth = dive(fathoms);
 		_puts(2, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
 		free(depth);
+		return (127);
 	}
 	if (WIFEXITED(sunk))
 		sunk = WEXITSTATUS(sunk);

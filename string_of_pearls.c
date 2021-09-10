@@ -14,7 +14,7 @@ int amphibian(char *dad_frog, int fathoms, char **tadpole)
 	if (tadpole[1] && tadpole[1][0] == '-')
 	{
 		depth = dive(fathoms);
-		_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+		_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": Illegal number: ");
 		_puts(2, 2, tadpole[1], "\n");
 		free(depth);
 		return (2);
@@ -31,7 +31,7 @@ int amphibian(char *dad_frog, int fathoms, char **tadpole)
 			else
 			{
 				depth = dive(fathoms);
-				_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+				_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": Illegal number: ");
 				_puts(2, 2, tadpole[1], "\n");
 				free(depth);
 				return (2);
