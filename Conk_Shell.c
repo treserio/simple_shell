@@ -157,9 +157,17 @@ int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f, int x)
 		if (arg_f && arg_f[1])
 			to_Davy_Jones_locker = amphibian(arg_f[1]);
 
-	for (caught = 0; p_f && p_f[caught]; ++caught)
-		free(p_f[caught]);
-	free(p_f);
+	if (p_f)
+	{
+		for (caught = 0; p_f && p_f[caught]; ++caught)
+			free(p_f[caught]);
+		free(p_f);
+	}
+	else
+	{
+		if (d_f)
+			free(d_f);
+	}
 
 	if (arg_f)
 	{
@@ -175,9 +183,6 @@ int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f, int x)
 
 	if (op_f)
 		free(op_f);
-
-	if (d_f)
-		free(d_f);
 
 	return (to_Davy_Jones_locker);
 }
