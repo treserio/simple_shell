@@ -23,7 +23,7 @@ int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f);
 int amphibian(char *dad_frog, int fathoms, char **tadpole);
 char *dive(int surface);
 int fish_scales(char *red_fish, char *blue_fish);
-void _puts(const unsigned int n, ...);
+void _puts(const int fd, const unsigned int n, ...);
 char *str_catfish(char *one_fish, char *two_fish, char jelly_fish);
 
 /* vessels */

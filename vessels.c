@@ -19,13 +19,13 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 		/* launch dingy to run child process and wait for it to sink */
 		dingy = fork();
 		if (dingy < 0)
-			_puts(2, ship[0], ": failed to start process\n");
+			_puts(1, 2, ship[0], ": failed to start process\n");
 		else if (dingy == 0)
 		{
 			if (execve(big_1, ship, ocean) == -1)
 			{
 				depth = dive(fathoms);
-				_puts(6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+				_puts(1, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
 				free(depth);
 				exit(-1);
 			}
@@ -36,7 +36,7 @@ int big_catch(char *big_1, char **ship, char **ocean, char *trip, int fathoms)
 	else
 	{
 		depth = dive(fathoms);
-		_puts(6, trip, ": ", depth, ": ", ship[0], ": not found\n");
+		_puts(1, 6, trip, ": ", depth, ": ", ship[0], ": not found\n");
 		free(depth);
 	}
 	if (WIFEXITED(sunk))
@@ -101,19 +101,19 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 	{
 		depth_finder(ocean);
 		release(NULL, vessel, NULL, NULL, NULL);
-		_puts(1, "\n");
+		_puts(1, 1, "\n");
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "path"))
 	{
 		for (leagues = 1; course && course[leagues]; ++leagues)
 		{
-			_puts(1, course[leagues]);
+			_puts(1, 1, course[leagues]);
 			if (course[leagues + 1])
-				_puts(1, ":");
+				_puts(1, 1, ":");
 		}
 		release(NULL, vessel, NULL, NULL, NULL);
-		_puts(1, "\n");
+		_puts(1, 1, "\n");
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "cd"))

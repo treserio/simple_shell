@@ -17,7 +17,7 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 	while (sailing)
 	{
 		if (isatty(STDIN_FILENO))
-			_puts(2, path[0], "$ ");
+			_puts(1, 2, path[0], "$ ");
 		chk = getline(&input, &sz_input, stdin);
 		if (chk == -1)
 		{
@@ -87,9 +87,9 @@ void depth_finder(char **ocean)
 
 	for (fish = 0; ocean && ocean[fish]; ++fish)
 	{
-		_puts(1, ocean[fish]);
+		_puts(1, 1, ocean[fish]);
 		if (ocean[fish + 1])
-			_puts(1, "\n");
+			_puts(1, 1, "\n");
 	}
 }
 /**

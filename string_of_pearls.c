@@ -14,8 +14,8 @@ int amphibian(char *dad_frog, int fathoms, char **tadpole)
 	if (tadpole[1] && tadpole[1][0] == '-')
 	{
 		depth = dive(fathoms);
-		_puts(6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
-		_puts(2, tadpole[1], "\n");
+		_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+		_puts(2, 2, tadpole[1], "\n");
 		free(depth);
 		return (2);
 	}
@@ -31,8 +31,8 @@ int amphibian(char *dad_frog, int fathoms, char **tadpole)
 			else
 			{
 				depth = dive(fathoms);
-		_puts(6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
-				_puts(2, tadpole[1], "\n");
+				_puts(2, 6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+				_puts(2, 2, tadpole[1], "\n");
 				free(depth);
 				return (2);
 			}
@@ -88,11 +88,12 @@ int fish_scales(char *red_fish, char *blue_fish)
 	return (chk);
 }
 /**
- * _puts - prints out the str in one write call
+ * _puts - writes to the fd one input str at a time
+ * @fd: 1 = stdout, 2 = stderr
  * @n: the number of (char *) given to _puts to print
  * Return: void
  */
-void _puts(const unsigned int n, ...)
+void _puts(const int fd, const unsigned int n, ...)
 {
 	unsigned int size, i;
 	char *str;
@@ -110,7 +111,7 @@ void _puts(const unsigned int n, ...)
 				++size;
 		}
 
-		write(1, str, size);
+		write(fd, str, size);
 	}
 
 	va_end(str_array);
