@@ -10,16 +10,18 @@ int amphibian(char *tadpole)
 	int neg = 1;
 
 	if (*tadpole == '-')
-	{
-		++tadpole;
-		neg = -1;
-	}
+		return (2);
 	if (tadpole)
 	{
 		for (; *tadpole; ++tadpole)
 		{
-			frog *= 10;
-			frog += *tadpole - '0';
+			if (*tadpole >= '0' && *tadpole <= '9')
+			{
+				frog *= 10;
+				frog += *tadpole - '0';
+			}
+			else
+				return(2);
 		}
 	}
 	return (frog * neg);
