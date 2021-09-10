@@ -1,30 +1,44 @@
 #include "c_shells_by_the_c_shore.h"
 /**
  * amphibian - turns a tadpole(char *) into a frog(int)
+ * @dad_frog: the sh_argv of the executing shell
+ * @fathoms: the number of commands run by the shell
  * @tadpole: the numeric char str to convert to int
  * Return: the frog(int)
  */
-int amphibian(char *tadpole)
+int amphibian(char *dad_frog, int fathoms, char **tadpole)
 {
-	int frog = 0;
-	int neg = 1;
+	char *depth;
+	int frog = 0, age;
 
-	if (*tadpole == '-')
-		return (2);
-	if (tadpole)
+	if (tadpole[1] && tadpole[1][0] == '-')
 	{
-		for (; *tadpole; ++tadpole)
+		depth = dive(fathoms);
+		_puts(6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+		_puts(2, tadpole[1], "\n");
+		free(depth);
+		return (2);
+	}
+	if (tadpole[1])
+	{
+		for (age = 0; tadpole[1][age]; ++age)
 		{
-			if (*tadpole >= '0' && *tadpole <= '9')
+			if (tadpole[1][age] >= '0' && tadpole[1][age] <= '9')
 			{
 				frog *= 10;
-				frog += *tadpole - '0';
+				frog += tadpole[1][age] - '0';
 			}
 			else
-				return(2);
+			{
+				depth = dive(fathoms);
+		_puts(6, dad_frog, ": ", depth, ": ", tadpole[0], ": illegal number: ");
+				_puts(2, tadpole[1], "\n");
+				free(depth);
+				return (2);
+			}
 		}
 	}
-	return (frog * neg);
+	return (frog);
 }
 /**
  * dive - turns an integer into a string

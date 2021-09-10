@@ -17,10 +17,10 @@ extern char **environ;
 char *deep_C_fishing(char *hook, char **sea);
 void depth_finder(char **ocean);
 char **path_fishing(char **ocean, char *old_port);
-int release(char **, char **, char *, char *, char *, int x);
+int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f);
 
 /* string_of_pearls */
-int amphibian(char *tadpole);
+int amphibian(char *dad_frog, int fathoms, char **tadpole);
 char *dive(int surface);
 int fish_scales(char *red_fish, char *blue_fish);
 void _puts(const unsigned int n, ...);

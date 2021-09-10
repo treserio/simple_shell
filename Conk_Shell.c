@@ -36,15 +36,13 @@ int main(__attribute__((unused))int sh_ac, char **sh_argv)
 		cmd_path = deep_C_fishing(my_argv[0], path);
 		chld_exit = big_catch(cmd_path, my_argv, environ, sh_argv[0], league);
 		if (my_argv)
-			free(cmd_path), release(NULL, my_argv, NULL, NULL, NULL, 0);
+			free(cmd_path), release(NULL, my_argv, NULL, NULL, NULL);
 	}
 	if (chk == 0 && my_argv[1])
-	to_Davy_Jones_locker = release(path, my_argv, input, old_port, dock, 1);
+		to_Davy_Jones_locker = amphibian(sh_argv[0], league, my_argv);
 	else
-	{
-		release(path, my_argv, input, old_port, dock, 1);
 		to_Davy_Jones_locker = chld_exit;
-	}
+	release(path, my_argv, input, old_port, dock);
 	return (to_Davy_Jones_locker);
 }
 /**
@@ -145,17 +143,11 @@ char **path_fishing(char **ocean, char *dock)
  * @in_f: input_fish from getline to release
  * @op_f: old_port_fish to release
  * @d_f: dock_fish(p_f[0]) to release if p_f = NULL
- * @x: exit, identify if exit was called and set return value if provided
  * Return: the value to use as the exit code
  */
-int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f, int x)
+int release(char **p_f, char **arg_f, char *in_f, char *op_f, char *d_f)
 {
 	int to_Davy_Jones_locker = 0, caught;
-
-	/* for exit code convert string to int */
-	if (x)
-		if (arg_f && arg_f[1])
-			to_Davy_Jones_locker = amphibian(arg_f[1]);
 
 	if (p_f)
 	{

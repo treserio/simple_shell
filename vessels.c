@@ -92,7 +92,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 
 	if (!vessel[0])
 	{
-		release(NULL, vessel, NULL, NULL, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL);
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "exit"))
@@ -100,7 +100,7 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 	if (!fish_scales(vessel[0], "env"))
 	{
 		depth_finder(ocean);
-		release(NULL, vessel, NULL, NULL, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL);
 		_puts(1, "\n");
 		return (1);
 	}
@@ -112,14 +112,14 @@ int charter(char **vessel, char **course, char **ocean, char *old_port)
 			if (course[leagues + 1])
 				_puts(1, ":");
 		}
-		release(NULL, vessel, NULL, NULL, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL);
 		_puts(1, "\n");
 		return (1);
 	}
 	if (!fish_scales(vessel[0], "cd"))
 	{
 		change_port(course[0], vessel, old_port);
-		release(NULL, vessel, NULL, NULL, NULL, 0);
+		release(NULL, vessel, NULL, NULL, NULL);
 		return (1);
 	}
 	return (2);
